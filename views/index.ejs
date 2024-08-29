@@ -25,7 +25,7 @@
                     <div class="d-flex"> 
                       <div class="flex-grow-1"> 
                        <p class="f-w-600 f-16 header-text-primary"><%= lang_data.registered_packages %></p>
-                       <h4 class="invosymbol" id="abc"><%= registered_packages %></h4>
+                       <h4 class="invosymbol1" id="abc"><%= registered_packages %> Kg</h4>
                       </div>
                       <div class="d-flex static-widget">
                         <svg width="80" height="80" viewBox="0 0 149 131" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -465,7 +465,7 @@
                                   <span class="badge badge-primary p-2"><%= data.shipping_status %></span>
                               <% } %>
                             </td>
-                            <td class="invosymbol1"><%= data.weight %></td>
+                            <td class="invosymbol2"><%= data.weight %> Kg</td>
                             <td>
                               <% if (data.due_amount != '0') { %>
                                   <span class="badge badge-warning p-2">Pending</span>
