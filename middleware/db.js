@@ -6,9 +6,9 @@ const mysql = require('mysql');
 // database connection and query promisify
 var conn = mysql.createPool({
     host     : 'localhost',
-    user     : 'username',
-    password : 'password',
-    database : 'database',
+    user     : 'interbrinksuser',
+    password : '8Fsnt9?W3Wt3zahiy',
+    database : 'admin_interbrinks',
     connectionLimit : 100
   });
 
