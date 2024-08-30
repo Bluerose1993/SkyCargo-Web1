@@ -1,7 +1,7 @@
 {
     "en": {
         "dashboard" : "Dashboard",
-        "registered_packages" : "Items In Vault",
+        "registered_packages" : "Transaction History",
         "shipments" : "Shipments",
         "pickups" : "Pickups",
         "consolidated" : "Consolidated",
