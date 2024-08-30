@@ -102,7 +102,7 @@ router.get("/", auth, async(req, res) => {
             let pickups_total = pickups[0].pickups_total
             let consolidated_total = consolidated[0].consolidated_total
     
-            let registered_packages_data = await mySqlQury(`SELECT tbl_register_packages.*, (select tbl_customers.first_name from tbl_customers where tbl_register_packages.customer = tbl_customers.id) as customers_firstname,
+            let registered_packages_data = await mySqlQury(`SELECT tbl_register_packages.*,tbl_register_packages.package_amount, (select tbl_customers.first_name from tbl_customers where tbl_register_packages.customer = tbl_customers.id) as customers_firstname,
                                                                                             (select tbl_customers.last_name from tbl_customers where tbl_register_packages.customer = tbl_customers.id) as customers_lastname,
                                                                                             (select tbl_shipping_status.status_name from tbl_shipping_status where tbl_register_packages.status = tbl_shipping_status.id) as shipping_status
                                                                                             FROM tbl_register_packages WHERE customer = '${customer_data[0].id}' ORDER BY id DESC LIMIT 5`)
