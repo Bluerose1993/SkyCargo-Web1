@@ -514,9 +514,9 @@
                             <td class="invosymbol"><!--<%= data.total %>--><%= data.Package_amount %></td>
                             <td>
                               <% if (data.due_amount != '0') { %>
-                                  <span class="badge badge-warning p-2">Pending</span>
+                                  <span class="badge badge-warning p-2">Pending <%= data.Package_amount %></span>
                               <% } else { %>
-                                  <span class="badge badge-success p-2">Paid</span>
+                                  <span class="badge badge-success p-2">Paid <%= data.Package_amount %></span>
                               <% } %>
                             </td>
                           </tr>
