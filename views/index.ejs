@@ -24,7 +24,7 @@
                   <div class="card-header pb-0">
                     <div class="d-flex"> 
                       <div class="flex-grow-1"> 
-                       <p class="f-w-600 f-16 header-text-primary">Available Balance<!--<%= lang_data.registered_packages %>--></p>
+                       <p class="f-w-600 f-16 header-text-primary">Available Minerals<!--<%= lang_data.registered_packages %>--></p>
                        <h4 class="invosymbol11" id="abc"><%= registered_packages %><br> Kg of Gold</br></h4>
                       </div>
                       <div class="d-flex static-widget">
@@ -111,7 +111,7 @@
                   <div class="card-header pb-0">
                     <div class="d-flex"> 
                       <div class="flex-grow-1"> 
-                        <p class="f-w-600 f-16 header-text-info"><%= lang_data.consolidated %> Total Vault Value</p>
+                        <p class="f-w-600 f-16 header-text-info"><%= lang_data.consolidated %></p>
                         <h4 class="invosymbol"><%= consolidated %></h4>
                       </div>
                       <div class="d-flex static-widget">
@@ -481,7 +481,7 @@
                 </div>
               </div>
 
-              <div class="col-lg-6 col-sm-12">
+              <!--<div class="col-lg-6 col-sm-12">
                 <div class="card">
                   <div class="card-header">
                     <h4><%= lang_data.shipments %> </h4>
@@ -511,7 +511,7 @@
                                   <span class="badge badge-primary p-2"><%= data.shipping_status %></span>
                               <% } %>
                             </td>
-                            <td class="invosymbol"><!--<%= data.total %>--><%= data.Package_amount %></td>
+                            <td class="invosymbol">--><!--<%= data.total %>--><!--<%= data.Package_amount %></td>
                             <td>
                               <% if (data.due_amount != '0') { %>
                                   <span class="badge badge-warning p-2">Pending <%= data.Package_amount %></span>
@@ -525,9 +525,9 @@
                     </table>
                   </div>
                 </div>
-              </div>
+              </div>-->
 
-              <div class="col-lg-6 col-sm-12">
+             <!-- <div class="col-lg-6 col-sm-12">
                 <div class="card">
                   <div class="card-header">
                     <h4><%= lang_data.pickups %> </h4>
@@ -571,9 +571,9 @@
                     </table>
                   </div>
                 </div>
-              </div>
+              </div>-->
 
-              <div class="col-lg-6 col-sm-12">
+              <!--<div class="col-lg-6 col-sm-12">
                 <div class="card">
                   <div class="card-header">
                     <h4><%= lang_data.consolidated %> </h4>
@@ -617,7 +617,7 @@
                     </table>
                   </div>
                 </div>
-              </div>
+              </div>-->
 
             </div>
 
