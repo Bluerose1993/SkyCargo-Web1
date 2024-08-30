@@ -4,7 +4,7 @@
         "registered_packages" : "Transaction History",
         "shipments" : "Shipments",
         "pickups" : "Pickups",
-        "consolidated" : "Consolidated",
+        "consolidated" : "Total Vault Value",
         "tracking" : "Tracking",
         "date" : "Date",
         "customer_name" : "Customer Name",
