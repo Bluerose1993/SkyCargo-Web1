@@ -92,56 +92,52 @@ router.get("/", auth, async(req, res) => {
 
         } else if (role_data.role == '2') {
             
-            let registered_packages = await mySqlQury(`SELECT SUM(weight) AS registered_packages_total FROM tbl_register_packages WHERE customer = '${customer_data[0].id}' AND assign_driver = 6`)
-            let shipments = await mySqlQury(`SELECT SUM(weight) AS registered_packages_total FROM tbl_register_packages WHERE customer = '${customer_data[0].id}' AND assign_driver = 6`)
-            let lands = await mySqlQury(`SELECT SUM(weight) AS registered_packages_total FROM tbl_register_packages WHERE customer = '${customer_data[0].id}' AND assign_driver = 6`)
-            let pickups = await mySqlQury(`SELECT SUM(total) AS pickups_total FROM tbl_pickup WHERE customer = '${customer_data[0].id}'`)
-            let consolidated = await mySqlQury(`SELECT SUM(package_amount) AS consolidated_total FROM tbl_register_packages WHERE customer = '${customer_data[0].id}'`)
-    
-            let packages_total = registered_packages[0].registered_packages_total
-            let shipments_total = shipments[0].shipments_total
-            let pickups_total = pickups[0].pickups_total
-            let consolidated_total = consolidated[0].consolidated_total
-    
-            let registered_packages_data = await mySqlQury(`SELECT tbl_register_packages.*,tbl_register_packages.package_amount, (select tbl_customers.first_name from tbl_customers where tbl_register_packages.customer = tbl_customers.id) as customers_firstname,
-                                                                                            (select tbl_customers.last_name from tbl_customers where tbl_register_packages.customer = tbl_customers.id) as customers_lastname,
-                                                                                            (select tbl_shipping_status.status_name from tbl_shipping_status where tbl_register_packages.status = tbl_shipping_status.id) as shipping_status
-                                                                                            FROM tbl_register_packages WHERE customer = '${customer_data[0].id}' ORDER BY id DESC LIMIT 5`)
-
-            let shipments_data = await mySqlQury(`SELECT tbl_shipment.*, (select tbl_customers.first_name from tbl_customers where tbl_shipment.customer = tbl_customers.id) as customers_firstname,
-                                                                        (select tbl_customers.last_name from tbl_customers where tbl_shipment.customer = tbl_customers.id) as customers_lastname,
-                                                                        (select tbl_shipping_status.status_name from tbl_shipping_status where tbl_shipment.delivery_status = tbl_shipping_status.id) as shipping_status
-                                                                        FROM tbl_shipment WHERE customer = '${customer_data[0].id}' ORDER BY id DESC LIMIT 5`)
-
-            let pickups_data = await mySqlQury(`SELECT tbl_pickup.*, (select tbl_customers.first_name from tbl_customers where tbl_pickup.customer = tbl_customers.id) as customers_firstname,
-                                                                    (select tbl_customers.last_name from tbl_customers where tbl_pickup.customer = tbl_customers.id) as customers_lastname,
-                                                                    (select tbl_shipping_status.status_name from tbl_shipping_status where tbl_pickup.delivery_status = tbl_shipping_status.id) as shipping_status
-                                                                    FROM tbl_pickup WHERE customer = '${customer_data[0].id}' ORDER BY id DESC LIMIT 5`)
-
-            let consolidated_data = await mySqlQury(`SELECT tbl_consolidated.*, (select tbl_customers.first_name from tbl_customers where tbl_consolidated.customer = tbl_customers.id) as customers_firstname,
-                                                                                (select tbl_customers.last_name from tbl_customers where tbl_consolidated.customer = tbl_customers.id) as customers_lastname,
-                                                                                (select tbl_shipping_status.status_name from tbl_shipping_status where tbl_consolidated.delivery_status = tbl_shipping_status.id) as status
-                                                                                FROM tbl_consolidated WHERE customer = '${customer_data[0].id}' ORDER BY id DESC LIMIT 5`)
-
+            try {
+                let registered_packages = await mySqlQury(`SELECT SUM(weight) AS registered_packages_total FROM tbl_register_packages WHERE customer = '${customer_data[0].id}' AND assign_driver = 6`);
+                let shipments = await mySqlQury(`SELECT SUM(weight) AS registered_packages_total FROM tbl_register_packages WHERE customer = '${customer_data[0].id}' AND assign_driver = 6`);
+                let pickups = await mySqlQury(`SELECT SUM(total) AS pickups_total FROM tbl_pickup WHERE customer = '${customer_data[0].id}'`);
+                let consolidated = await mySqlQury(`SELECT SUM(package_amount) AS consolidated_total FROM tbl_register_packages WHERE customer = '${customer_data[0].id}'`);
             
-            res.render("index",{
-                role_data : role_data, accessdata, lang_data, language_name, notification_data,
-                register_packages_notification, shipment_notification, pickup_notification, consolidated_notification,
-                registered_packages : ((packages_total == null) ? 0 : packages_total.toFixed(2)),
-                shipments : ((shipments_total == null) ? 0 : shipments_total.toFixed(2)),
-                pickups : ((pickups_total == null) ? 0 : pickups_total.toFixed(2)),
-                consolidated : ((consolidated_total == null) ? 0 : consolidated_total.toFixed(2)),
-                registered_packages_data, shipments_data, pickups_data, consolidated_data,
-                customers_data : 0,
-                clients_data : 0,
-                drivers_data : 0,
-                pre_alert_data : 0,
-                office_group_data : 0,
-                agency_group_data : 0,
-                courier_companies_data : 0,
-                shipping_status_data : 0,
-                logistics_service_data : 0,
-            })
+                let packages_total = registered_packages.length > 0 ? registered_packages[0].registered_packages_total : 0;
+                let shipments_total = shipments.length > 0 ? shipments[0].registered_packages_total : 0;
+                let pickups_total = pickups.length > 0 ? pickups[0].pickups_total : 0;
+                let consolidated_total = consolidated.length > 0 ? consolidated[0].consolidated_total : 0;
+            
+                // Queries for data
+            
+                res.render("index", {
+                    role_data,
+                    accessdata,
+                    lang_data,
+                    language_name,
+                    notification_data,
+                    register_packages_notification,
+                    shipment_notification,
+                    pickup_notification,
+                    consolidated_notification,
+                    registered_packages: packages_total.toFixed(2),
+                    shipments: shipments_total.toFixed(2),
+                    pickups: pickups_total.toFixed(2),
+                    consolidated: consolidated_total.toFixed(2),
+                    registered_packages_data,
+                    shipments_data,
+                    pickups_data,
+                    consolidated_data,
+                    customers_data: 0,
+                    clients_data: 0,
+                    drivers_data: 0,
+                    pre_alert_data: 0,
+                    office_group_data: 0,
+                    agency_group_data: 0,
+                    courier_companies_data: 0,
+                    shipping_status_data: 0,
+                    logistics_service_data: 0,
+                });
+            } catch (error) {
+                console.error(error);
+                res.status(500).send("Internal Server Error");
+            }
+            
         } else {
             let registered_packages = await mySqlQury(`SELECT SUM(weight) AS registered_packages_total FROM tbl_register_packages WHERE assign_driver = '${drivers_data[0].id}'`)
             let shipments = await mySqlQury(`SELECT SUM(total) AS shipments_total FROM tbl_shipment WHERE assign_driver = '${drivers_data[0].id}'`)
