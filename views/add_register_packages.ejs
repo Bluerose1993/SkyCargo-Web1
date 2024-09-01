@@ -57,7 +57,7 @@
 
                         <dic class="col-6">
                           <div class="col-form-label"><%= lang_data.List_of_Agencies %></div>
-                          <select class="js-example-basic-single" name="agency" required>
+                          <select class="js-example-basic-single" name="agency" >
                             <option value selected disabled>Search Agencies</option>
                             <% agencies_list.forEach((data) => { %>
                               <option value="<%= data.id %>"> <%= data.agency_name %></option>
@@ -180,7 +180,7 @@
   
                           <div class="col-4">
                             <label class="form-label"><%= lang_data.Purchase_price %> (<%= accessdata.data.site_currency %>)</label>
-                            <input class="form-control" type="number" name="purchase_price" placeholder="Purchase price" value="<%= pre_alert_data.purchase_price %>" required>
+                            <input class="form-control" type="number" name="purchase_price" placeholder="Purchase price" value="<%= pre_alert_data.purchase_price %>" >
                           </div>
                         <% } else { %>
 
@@ -191,18 +191,18 @@
   
                           <div class="col-4">
                             <label class="form-label"><%= lang_data.Store %> / <%= lang_data.Supplier %></label>
-                            <input class="form-control" type="text" name="supplier" placeholder="Store / supplier" required>
+                            <input class="form-control" type="text" name="supplier" placeholder="Store / supplier" >
                           </div>
   
                           <div class="col-4">
                             <label class="form-label"><%= lang_data.Purchase_price %> (<%= accessdata.data.site_currency %>)</label>
-                            <input class="form-control" type="number" name="purchase_price" placeholder="Purchase price" required>
+                            <input class="form-control" type="number" name="purchase_price" placeholder="Purchase price" >
                           </div>
                         <% } %>
 
                         <div class="col-4 mt-3">
                           <div class="col-form-label"><%= lang_data.Shipping_mode %></div>
-                          <select class="js-example-basic-single" name="shipping_mode" required>
+                          <select class="js-example-basic-single" name="shipping_mode" >
                             <option value selected disabled>Search Shipping Mode</option>
                             <% logistics_service_list.forEach((data) => { %>
                               <option value="<%= data.id %>"> <%= data.service_name %></option>
@@ -265,7 +265,7 @@
                           <div class="form-input">                                           
                             <img id="file-preview" width="250px" height="250px" src="../../images/dashboard/default/profile.png" alt="image">
                           
-                            <input class="d-none" type="file" id="file-1" name="image" onchange="showPreview(event)" required>
+                            <input class="d-none" type="file" id="file-1" name="image" onchange="showPreview(event)" >
                             <p class="font-danger" id="image_error"></p>
                           </div>
                         </div>
