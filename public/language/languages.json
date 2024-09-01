@@ -13,7 +13,7 @@
         "invoice_status" : "Item Cost Value",
         "Customers" : "Customers",
         "Clients" : "Clients",
-        "Drivers" : "Drivers",
+        "Drivers" : "Item Type",
         "Pre_Alrert" : "Pre Alrert",
         "Office_Group" : "Office Group",
         "Agency_Group" : "Agency Group",
