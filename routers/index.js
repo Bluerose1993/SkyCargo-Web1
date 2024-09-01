@@ -93,8 +93,7 @@ router.get("/", auth, async(req, res) => {
         } else if (role_data.role == '2') {
             
             let registered_packages = await mySqlQury(`SELECT SUM(weight) AS registered_packages_total FROM tbl_register_packages WHERE customer = '${customer_data[0].id}' AND assign_driver = 6`)
-            let shipments = await mySqlQury(`SELECT SUM(weight) AS registered_packages_total FROM tbl_register_packages WHERE customer = '${customer_data[0].id}' AND assign_driver = 6`)
-            let lands = await mySqlQury(`SELECT SUM(weight) AS registered_packages_total FROM tbl_register_packages WHERE customer = '${customer_data[0].id}' AND assign_driver = 6`)
+            let shipments = await mySqlQury(`SELECT SUM(weight) AS shipments_total FROM tbl_register_packages WHERE customer = '${customer_data[0].id}' AND assign_driver = 6`)
             let pickups = await mySqlQury(`SELECT SUM(total) AS pickups_total FROM tbl_pickup WHERE customer = '${customer_data[0].id}'`)
             let consolidated = await mySqlQury(`SELECT SUM(package_amount) AS consolidated_total FROM tbl_register_packages WHERE customer = '${customer_data[0].id}'`)
     
