@@ -635,6 +635,13 @@ function selectRefresh() {
                   '<label class="form-label mb-auto" for="validationCustom01">'+ $("#json_Package_Name").text() +'</label>'+
                   '<input class="form-control form-control-sm" type="text" name="package_name" placeholder="Name">'+
                 '</div>'+
+                '<div class="col-lg-2 col-md-4 d-flex align-items-start flex-column">'+
+          '<label class="form-label mb-auto" for="register_packages_type">Type</label>'+
+          '<select class="form-control form-control-sm" name="package_type" id="register_packages_type">'+
+            '<option value="1">Gold</option>'+
+            '<option value="2">Land</option>'+
+          '</select>'+
+        '</div>'+
 
                 '<div class="col-lg-2 col-md-4 d-flex align-items-start flex-column">'+
                   '<label class="form-label mb-auto" for="validationCustom01">'+ $("#json_Package_Description").text() +'</label>'+
