@@ -279,9 +279,5 @@ router.post("/tracking", async (req, res) => {
         console.error("Error occurred during form submission:", error);
         res.status(500).send("Server Error");
     }
-});
-
-
-
-
+})
 module.exports = router;
