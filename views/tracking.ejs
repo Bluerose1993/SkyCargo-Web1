@@ -43,329 +43,131 @@
     <!-- Loader ends-->
     <!-- login page start-->
     <div class="container-fluid dashboard-default">
-        <div class="row">
-            <div class="col-xl-12 p-0">
-                <div id="tracking_page">
-                    <div class="m-5 px-5">
-                        <div class="p-3 text-center">
+      <div class="row">
+          <div class="col-xl-12 p-0">
+              <div id="tracking_page">
+                  <div class="m-5 px-5">
+                      <div class="p-3 text-center">
                           <img src="../../uploads/<%= general_settings_data.site_logo %>" class="pt-3" alt="image">
                           <h1 class="f-w-900"><%= general_settings_data.site_title %></h1>
-                            <h5>Track your shipment</h5>
-                        </div>
+                          <h5>Track your shipment</h5>
+                      </div>
 
-                        <div class="card"> 
-                            <div class="card-body"> 
-                                <div class="row">
-                                    <div class="col-lg-6 col-sm-12">
-                                        <label class="form-label">Shipment Type</label>
-                                        <select class="form-select" id="shipment_type" required>
-                                            <option selected disabled value>Choose Type</option>
-                                            <option value="1">Register Packages</option>
-                                            <option value="2">Shipment</option>
-                                            <option value="3">Pickup</option>
-                                            <option value="4">Consolidated</option>
-                                        </select>
-                                        <p class="font-danger" id="shipment_type_error"></p>
-                                    </div>
-    
-                                    <div class="col-lg-6 col-sm-12">
-                                        <label class="form-label f-w-500">Tracking Id</label>
-                                        <input class="form-control" type="text" placeholder="Enter Invoice Number" id="invoice_no">
-                                        <p class="font-danger" id="invoice_no_error"></p>
-                                    </div>
-    
-                                    <div class="col-12">
-                                        <button class="btn btn-square btn-primary mt-4 pt-3 b-r-7 w-100 text-nowrap" type="submit" id="track_shipment">Track shipment</button>
-                                    </div>
-                                    <a href="/" class="p-3 text-center">Back to home</a>
-                                </div>
-                            </div>
-                        </div>
+                      <div class="card"> 
+                          <div class="card-body"> 
+                              <form action="/search_invoice" method="POST">
+                                  <div class="row">
+                                      <div class="col-lg-6 col-sm-12">
+                                          <label class="form-label">Shipment Type</label>
+                                          <select class="form-select" name="shipment_type" id="shipment_type" required>
+                                              <option selected disabled value>Choose Type</option>
+                                              <option value="1">Register Packages</option>
+                                              <option value="2">Shipment</option>
+                                              <option value="3">Pickup</option>
+                                              <option value="4">Consolidated</option>
+                                          </select>
+                                          <p class="font-danger" id="shipment_type_error">
+                                              <% if (shipmentTypeError) { %>
+                                                  <%= shipmentTypeError %>
+                                              <% } %>
+                                          </p>
+                                      </div>
 
-                        
+                                      <div class="col-lg-6 col-sm-12">
+                                          <label class="form-label f-w-500">Tracking Id</label>
+                                          <input class="form-control" type="text" placeholder="Enter Invoice Number" name="invoice_no" id="invoice_no" value="<%= invoiceNo || '' %>">
+                                          <p class="font-danger" id="invoice_no_error">
+                                              <% if (invoiceNoError) { %>
+                                                  <%= invoiceNoError %>
+                                              <% } %>
+                                          </p>
+                                      </div>
 
-                        <div class="row">
-
-                          <div class="card d-none" id="qwe">
-                            <div class="card-body">
-                              <div class="row">
-                                <div class="col-lg-6 col-sm-12">
-                                  <span class="badge badge-light text-dark w-100 text-start f-20">Sender</span>
-                  
-                                  <div class="row mt-4">
-                  
-                                    <div class="col-6">
-                                      
-                                      <div class="d-flex">
-                                        <h2 class="m-r-10">
-                                          <i class="fa fa-map-marker"></i>
-                                        </h2>
-                                        <div>
-                                          <span class="f-16 mb-2">Origin Country</span>
-                                          <h5 class="f-16" id="origin_country">Surat</h5>
-                                        </div>
+                                      <div class="col-12">
+                                          <button class="btn btn-square btn-primary mt-4 pt-3 b-r-7 w-100 text-nowrap" type="submit" id="track_shipment">Track shipment</button>
                                       </div>
-                                      
-                                      <hr>
-                                      
-                                      <div class="d-flex">
-                                        <h2 class="m-r-10">
-                                          <i class="fa fa-user"></i>
-                                        </h2>
-                                        <div>
-                                          <span class="f-16 mb-2">Contact Name</span>
-                                          <h5 class="f-16" id="customer_name">Vivek Patel</h5>
-                                        </div>
-                                      </div>
-                                      
-                                      <hr>
-                                      
-                                      <div class="d-flex">
-                                        <h2 class="m-r-10">
-                                          <i class="fa fa-calendar-o"></i>
-                                        </h2>
-                                        <div>
-                                          <span class="f-16 mb-2">Date of shipment</span>
-                                          <h5 class="f-16" id="date_of_shipment">2023-04-16</h5>
-                                        </div>
-                                      </div>
-                                      
-                                      <hr>
-                                      
-                                    </div>
-                                    
-                                    <div class="col-6">
-                                      
-                                      <div class="d-flex">
-                                        <h2 class="m-r-10">
-                                          <i class="fa fa-map-marker"></i>
-                                        </h2>
-                                        <div>
-                                          <span class="f-16 mb-2">Origin City</span>
-                                          <h5 class="f-16" id="origin_city">Rajkot</h5>
-                                        </div>
-                                      </div>
-                                      
-                                      <hr>
-                                      
-                                      <div class="d-flex">
-                                        <h2 class="m-r-10">
-                                          <i class="icofont icofont-map-pins"></i>
-                                        </h2>
-                                        <div>
-                                          <span class="f-16 mb-2">Contact Address</span>
-                                          <h5 class="f-16" id="customer_address">safdshdthyhjfgfdf</h5>
-                                        </div>
-                                      </div>
-                                      
-                                      <hr>
-                                      
-                                      <div class="d-flex">
-                                        <h2 class="m-r-10">
-                                          <i class="icofont icofont-law"></i>
-                                        </h2>
-                                        <div>
-                                          <span class="f-16 mb-2">Total weight</span>
-                                          <h5 class="f-16" id="total_weight">12.05</h5>
-                                        </div>
-                                      </div>
-                                      
-                                      <hr>
-                                      
-                                    </div>
-                                    
+                                      <a href="/" class="p-3 text-center">Back to home</a>
                                   </div>
-                                  
-                                </div>
-                                
-                                <div class="col-lg-6 col-sm-12">
-                                  <span class="badge badge-light text-dark w-100 text-start f-20">Recipient</span>
-                                  
-                                  <div class="row mt-4">
-                                    
-                                    <div class="col-6">
-                                      
-                                      <div class="d-flex">
-                                        <h2 class="m-r-10">
-                                          <i class="fa fa-map-marker"></i>
-                                        </h2>
-                                        <div>
-                                          <span class="f-16 mb-2">Destination Country</span>
-                                          <h5 class="f-16" id="destination_country">India</h5>
-                                        </div>
-                                      </div>
-                                      
-                                      <hr>
-                                      
-                                      <div class="d-flex">
-                                        <h2 class="m-r-10">
-                                          <i class="fa fa-user"></i>
-                                        </h2>
-                                        <div>
-                                          <span class="f-16 mb-2">Contact Name</span>
-                                          <h5 class="f-16" id="client_name">Vivek Patel</h5>
-                                        </div>
-                                      </div>
-                                      
-                                      <hr>
-                                      
-                                    </div>
-                                    
-                                    <div class="col-6">
-                  
-                                      <div class="d-flex">
-                                        <h2 class="m-r-10">
-                                          <i class="fa fa-map-marker"></i>
-                                        </h2>
-                                        <div>
-                                          <span class="f-16 mb-2">Destination City</span>
-                                          <h5 class="f-16" id="destination_city">Rajkot</h5>
-                                        </div>
-                                      </div>
-                                      
-                                      <hr>
-                  
-                                      <div class="d-flex">
-                                        <h2 class="m-r-10">
-                                          <i class="icofont icofont-map-pins"></i>
-                                        </h2>
-                                        <div>
-                                          <span class="f-16 mb-2">Contact Address</span>
-                                          <h5 class="f-16" id="destination_address">safdshdthyhjfgfdf</h5>
-                                        </div>
-                                      </div>
-                  
-                                      <hr>
-                  
-                                    </div>
-                  
-                                  </div>
-                  
-                                </div>
-                  
-                              </div>
-                            </div>
+                              </form>
                           </div>
+                      </div>
 
-                          <div class="card d-none" id="poi">
-                            <div class="card-body">
-                              <div class="row">
-                                <div class="col-12">
-                                  <span class="badge badge-light text-dark w-100 text-start f-20">Sender</span>
-                  
-                                  <div class="row mt-4">
-                  
-                                    <div class="col-6">
-                  
-                                      <div class="d-flex">
-                                        <h2 class="m-r-10">
-                                          <i class="fa fa-map-marker"></i>
-                                        </h2>
-                                        <div>
-                                          <span class="f-16 mb-2">Origin Country</span>
-                                          <h5 class="f-16" id="origin_country">Surat</h5>
-                                        </div>
-                                      </div>
-                  
-                                      <hr>
-                                      
-                                      <div class="d-flex">
-                                        <h2 class="m-r-10">
-                                          <i class="fa fa-user"></i>
-                                        </h2>
-                                        <div>
-                                          <span class="f-16 mb-2">Contact Name</span>
-                                          <h5 class="f-16" id="customer_name">Vivek Patel</h5>
-                                        </div>
-                                      </div>
-                                    
-                                      <hr>
-                  
-                                      <div class="d-flex">
-                                        <h2 class="m-r-10">
-                                          <i class="fa fa-calendar-o"></i>
-                                        </h2>
-                                        <div>
-                                          <span class="f-16 mb-2">Date of shipment</span>
-                                          <h5 class="f-16" id="date_of_shipment">2023-04-16</h5>
-                                        </div>
-                                      </div>
-                  
-                                      <hr>
-                  
-                                    </div>
-                                    
-                                    <div class="col-6">
-                  
-                                      <div class="d-flex">
-                                        <h2 class="m-r-10">
-                                          <i class="fa fa-map-marker"></i>
-                                        </h2>
-                                        <div>
-                                          <span class="f-16 mb-2">Origin City</span>
-                                          <h5 class="f-16" id="origin_city">Rajkot</h5>
-                                        </div>
-                                      </div>
-                                      
-                                      <hr>
-                                      
-                                      <div class="d-flex">
-                                        <h2 class="m-r-10">
-                                          <i class="icofont icofont-map-pins"></i>
-                                        </h2>
-                                        <div>
-                                          <span class="f-16 mb-2">Contact Address</span>
-                                          <h5 class="f-16" id="customer_address">safdshdthyhjfgfdf</h5>
-                                        </div>
-                                      </div>
-                  
-                                      <hr>
-                  
-                                      <div class="d-flex">
-                                        <h2 class="m-r-10">
-                                          <i class="icofont icofont-law"></i>
-                                        </h2>
-                                        <div>
-                                          <span class="f-16 mb-2">Total weight</span>
-                                          <h5 class="f-16" id="total_weight">12.05</h5>
-                                        </div>
-                                      </div>
-                  
-                                      <hr>
-                  
-                                    </div>
-                  
-                                  </div>
-                  
-                                </div>
-                              </div>
-                            </div>
-                          </div>
+                      <!-- The rest of your layout and UI components -->
 
-                          <div class="col-12 d-none" id="mnb">
-                              <div class="card">
-                                <div class="card-header pb-0">
-                                  <div class="d-flex justify-content-between">
-                                    <div class="flex-grow-1">
-                                      <span class="badge badge-light text-dark w-100 text-start f-20">Shipping History</span>
-                                    </div>
+                      <!-- Display results after form submission -->
+                      <% if (typeof results !== 'undefined' && results.length > 0) { %>
+                          <div class="row mt-5">
+                              <div class="card" id="tracking_results">
+                                  <div class="card-body">
+                                      <div class="row">
+                                          <!-- Display sender and recipient details here -->
+                                          <!-- Example for Sender -->
+                                          <div class="col-lg-6 col-sm-12">
+                                              <span class="badge badge-light text-dark w-100 text-start f-20">Sender</span>
+                                              <div class="row mt-4">
+                                                  <div class="col-6">
+                                                      <div class="d-flex">
+                                                          <h2 class="m-r-10"><i class="fa fa-map-marker"></i></h2>
+                                                          <div>
+                                                              <span class="f-16 mb-2">Origin Country</span>
+                                                              <h5 class="f-16"><%= results[0].origin_country %></h5>
+                                                          </div>
+                                                      </div>
+                                                      <!-- Additional sender details -->
+                                                  </div>
+                                                  <div class="col-6">
+                                                      <div class="d-flex">
+                                                          <h2 class="m-r-10"><i class="fa fa-map-marker"></i></h2>
+                                                          <div>
+                                                              <span class="f-16 mb-2">Origin City</span>
+                                                              <h5 class="f-16"><%= results[0].origin_city %></h5>
+                                                          </div>
+                                                      </div>
+                                                      <!-- Additional sender details -->
+                                                  </div>
+                                              </div>
+                                          </div>
+
+                                          <!-- Example for Recipient -->
+                                          <div class="col-lg-6 col-sm-12">
+                                              <span class="badge badge-light text-dark w-100 text-start f-20">Recipient</span>
+                                              <div class="row mt-4">
+                                                  <div class="col-6">
+                                                      <div class="d-flex">
+                                                          <h2 class="m-r-10"><i class="fa fa-map-marker"></i></h2>
+                                                          <div>
+                                                              <span class="f-16 mb-2">Destination Country</span>
+                                                              <h5 class="f-16"><%= results[0].destination_country %></h5>
+                                                          </div>
+                                                      </div>
+                                                      <!-- Additional recipient details -->
+                                                  </div>
+                                                  <div class="col-6">
+                                                      <div class="d-flex">
+                                                          <h2 class="m-r-10"><i class="fa fa-map-marker"></i></h2>
+                                                          <div>
+                                                              <span class="f-16 mb-2">Destination City</span>
+                                                              <h5 class="f-16"><%= results[0].destination_city %></h5>
+                                                          </div>
+                                                      </div>
+                                                      <!-- Additional recipient details -->
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
                                   </div>
-                                </div>
-                                <div class="card-body mb-5">
-                                  <div class="activity-timeline position-relative" id="history_table">
-                                    
-                                  </div>
-                                  
-                                </div>
                               </div>
                           </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <%- include('./partials/script'); -%>
-    </div>
-  </body>
-
+                      <% } else if (typeof results !== 'undefined') { %>
+                          <div class="row mt-5">
+                              <p>No results found for the provided Tracking ID.</p>
+                          </div>
+                      <% } %>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <%- include('./partials/script'); -%>
+  </div>
+</body>
 </html>
