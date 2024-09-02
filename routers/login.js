@@ -173,7 +173,7 @@ router.post("/sign_up", async(req, res) => {
 
         const hash = await bcrypt.hash(password, 10)
 
-        let query = `INSERT INTO tbl_admin (first_name, last_name, email, country_code, phone_no, password, role) VALUE ('${first_name}', '${last_name}', '${email}', '${country_code}', '${phone_no}', '${hash}', 2)`
+        let query = `INSERT INTO tbl_admin (first_name, last_name, email, country_code, phone_no,solebe, password, role) VALUE ('${first_name}', '${last_name}', '${email}','${solebe}', '${country_code}', '${phone_no}', '${hash}', 2)`
         await mySqlQury(query)
 
         const admin_data = await mySqlQury(`SELECT * FROM tbl_admin WHERE email = '${email}'`)
