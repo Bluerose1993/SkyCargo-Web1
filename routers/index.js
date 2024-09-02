@@ -252,7 +252,7 @@ router.post("/profile/:id", auth, async(req, res) => {
         console.log(error);
     }
 })
-router.post("/search_invoice", async (req, res) => {
+router.post("/tracking", async (req, res) => {
     try {
         // Get the invoice number from the form submission
         const invoiceNo = req.body.invoice_no;
