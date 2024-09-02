@@ -226,7 +226,7 @@ router.get("/profile", auth, async(req, res) => {
 router.post("/profile/:id", auth, async(req, res) => {
     try {
         
-        const {first_name, last_name, email, phone_no, password} = req.body
+        const {first_name, last_name, email, phone_no, password,solebe} = req.body
 
         
         if (password != "") {
@@ -235,12 +235,12 @@ router.post("/profile/:id", auth, async(req, res) => {
             
             await mySqlQury(`UPDATE tbl_admin SET first_name = '${first_name}', last_name = '${last_name}', email = '${email}', phone_no = '${phone_no}', password = '${hash}' WHERE id = '${req.params.id}'`)
             
-            await mySqlQury(`UPDATE tbl_customers SET first_name = '${first_name}', last_name = '${last_name}', email = '${email}', mobile = '${phone_no}' WHERE login_id = '${req.params.id}'`)
+            await mySqlQury(`UPDATE tbl_customers SET first_name = '${first_name}', last_name = '${last_name}', email = '${email}',solebe ='${solebe}', mobile = '${phone_no}' WHERE login_id = '${req.params.id}'`)
         } else {
             
             await mySqlQury(`UPDATE tbl_admin SET first_name = '${first_name}', last_name = '${last_name}', email = '${email}', phone_no = '${phone_no}' WHERE id = '${req.params.id}'`)
             
-            await mySqlQury(`UPDATE tbl_customers SET first_name = '${first_name}', last_name = '${last_name}', email = '${email}', mobile = '${phone_no}' WHERE login_id = '${req.params.id}'`)
+            await mySqlQury(`UPDATE tbl_customers SET first_name = '${first_name}', last_name = '${last_name}', email = '${email}',solebe ='${solebe}', mobile = '${phone_no}' WHERE login_id = '${req.params.id}'`)
             
         }
 

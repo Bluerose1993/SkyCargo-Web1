@@ -169,7 +169,7 @@ router.get("/state/ajax/:id", async(req, res) => {
 
 router.post("/sign_up", async(req, res) => {
     try {
-        const {first_name, last_name, email, country_code, phone_no, password, address, country, state, city, zip_code} = req.body
+        const {first_name, last_name, email, country_code, phone_no, password, address,solebe, country, state, city, zip_code} = req.body
 
         const hash = await bcrypt.hash(password, 10)
 
@@ -179,8 +179,8 @@ router.post("/sign_up", async(req, res) => {
         const admin_data = await mySqlQury(`SELECT * FROM tbl_admin WHERE email = '${email}'`)
         console.log(admin_data);
 
-        let customer_data = `INSERT INTO tbl_customers (first_name, last_name, email, country_code, mobile, customers_country, customers_state, customers_city, customers_zipcode, customers_address, customer_active, login_id) VALUE
-        ('${first_name}', '${last_name}', '${email}', '${country_code}', '${phone_no}', '${country}', '${state}', '${city}', '${zip_code}', '${address}', '0', '${admin_data[0].id}')`
+        let customer_data = `INSERT INTO tbl_customers (first_name, last_name, email, country_code, mobile, customers_country, customers_state, customers_city, customers_zipcode, customers_address, customer_active, login_id,solebe) VALUE
+        ('${first_name}', '${last_name}', '${email}', '${country_code}', '${phone_no}', '${country}', '${state}', '${city}', '${zip_code}', '${address}', '0', '${admin_data[0].id}', '${solebe}')`;
         await mySqlQury(customer_data)
 
         req.flash('success', `Your information will be sent to the administration for approval.!`)
