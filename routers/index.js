@@ -254,31 +254,33 @@ router.post("/profile/:id", auth, async(req, res) => {
 })
 router.post("/tracking", async (req, res) => {
     try {
-        // Get the invoice number from the form submission
+        console.log("Received form submission:", req.body);
+        
         const invoiceNo = req.body.invoice_no;
+        console.log("Tracking ID:", invoiceNo);
 
-        // Validate input (optional)
         if (!invoiceNo) {
+            console.log("No Tracking ID provided");
             return res.render("tracking", {
                 invoiceNoError: "Tracking ID is required.",
                 results: []
             });
         }
 
-        // Query the database for rows where shipping_id matches the invoice_no
         let results = await mySqlQury(`SELECT * FROM tbl_register_packages WHERE shipping_id = ?`, [invoiceNo]);
+        console.log("Query results:", results);
 
-        // Render the results on the tracking.ejs page
         res.render("tracking", {
             results: results,
             invoiceNo: invoiceNo,
             invoiceNoError: results.length === 0 ? "No results found for the provided Tracking ID." : null
         });
     } catch (error) {
-        console.log(error);
+        console.error("Error occurred during form submission:", error);
         res.status(500).send("Server Error");
     }
 });
+
 
 
 
