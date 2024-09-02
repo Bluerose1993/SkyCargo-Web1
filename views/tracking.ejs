@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-  
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,31 +8,23 @@
     <meta name="keywords" content="">
     <meta name="author" content="">
     <link rel="icon" href="../../uploads/<%= general_settings_data.site_logo %>" type="image/x-icon">
-  <link rel="shortcut icon" href="../../uploads/<%= general_settings_data.site_logo %>" type="image/x-icon">
-  <title>Track Shipment</title>
+    <link rel="shortcut icon" href="../../uploads/<%= general_settings_data.site_logo %>" type="image/x-icon">
+    <title>Track Shipment</title>
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../../css/vendors/font-awesome.css">
-    <!-- ico-font-->
     <link rel="stylesheet" type="text/css" href="../../css/vendors/icofont.css">
-    <!-- Themify icon-->
     <link rel="stylesheet" type="text/css" href="../../css/vendors/themify.css">
-    <!-- Flag icon-->
     <link rel="stylesheet" type="text/css" href="../../css/vendors/flag-icon.css">
-    <!-- Feather icon-->
     <link rel="stylesheet" type="text/css" href="../../css/vendors/feather-icon.css">
     <link rel="stylesheet" type="text/css" href="../../css/vendors/scrollbar.css">
-    <!-- Bootstrap css-->
     <link rel="stylesheet" type="text/css" href="../../css/vendors/bootstrap.css">
-    
     <link rel="stylesheet" type="text/css" href="../../css/vendors/prism.css">
-    <!-- App css-->
     <link rel="stylesheet" type="text/css" href="../../css/style.css">
     <link id="color" rel="stylesheet" href="../../css/color-1.css" media="screen">
-    <!-- Responsive css-->
     <link rel="stylesheet" type="text/css" href="../../css/responsive.css">
-  </head>
-  <body>
+</head>
+<body>
     <!-- Loader starts-->
     <div class="loader-wrapper">
       <div class="loader-box">
@@ -41,6 +32,7 @@
       </div>
     </div>
     <!-- Loader ends-->
+
     <!-- login page start-->
     <div class="container-fluid dashboard-default">
       <div class="row">
@@ -92,68 +84,63 @@
                           </div>
                       </div>
 
-                      <!-- The rest of your layout and UI components -->
-
                       <!-- Display results after form submission -->
                       <% if (typeof results !== 'undefined' && results.length > 0) { %>
                           <div class="row mt-5">
                               <div class="card" id="tracking_results">
                                   <div class="card-body">
                                       <div class="row">
-                                          <!-- Display sender and recipient details here -->
-                                          <!-- Example for Sender -->
-                                          <div class="col-lg-6 col-sm-12">
-                                              <span class="badge badge-light text-dark w-100 text-start f-20">Sender</span>
-                                              <div class="row mt-4">
-                                                  <div class="col-6">
-                                                      <div class="d-flex">
-                                                          <h2 class="m-r-10"><i class="fa fa-map-marker"></i></h2>
-                                                          <div>
-                                                              <span class="f-16 mb-2">Origin Country</span>
-                                                              <h5 class="f-16"><%= results[0].origin_country %></h5>
+                                          <% results.forEach(function(result, index) { %>
+                                              <!-- Example for Sender -->
+                                              <div class="col-lg-6 col-sm-12">
+                                                  <span class="badge badge-light text-dark w-100 text-start f-20">Sender (Shipment #<%= index + 1 %>)</span>
+                                                  <div class="row mt-4">
+                                                      <div class="col-6">
+                                                          <div class="d-flex">
+                                                              <h2 class="m-r-10"><i class="fa fa-map-marker"></i></h2>
+                                                              <div>
+                                                                  <span class="f-16 mb-2">Origin Country</span>
+                                                                  <h5 class="f-16"><%= result.origin_country %></h5>
+                                                              </div>
                                                           </div>
                                                       </div>
-                                                      <!-- Additional sender details -->
-                                                  </div>
-                                                  <div class="col-6">
-                                                      <div class="d-flex">
-                                                          <h2 class="m-r-10"><i class="fa fa-map-marker"></i></h2>
-                                                          <div>
-                                                              <span class="f-16 mb-2">Origin City</span>
-                                                              <h5 class="f-16"><%= results[0].origin_city %></h5>
+                                                      <div class="col-6">
+                                                          <div class="d-flex">
+                                                              <h2 class="m-r-10"><i class="fa fa-map-marker"></i></h2>
+                                                              <div>
+                                                                  <span class="f-16 mb-2">Origin City</span>
+                                                                  <h5 class="f-16"><%= result.origin_city %></h5>
+                                                              </div>
                                                           </div>
                                                       </div>
-                                                      <!-- Additional sender details -->
                                                   </div>
                                               </div>
-                                          </div>
 
-                                          <!-- Example for Recipient -->
-                                          <div class="col-lg-6 col-sm-12">
-                                              <span class="badge badge-light text-dark w-100 text-start f-20">Recipient</span>
-                                              <div class="row mt-4">
-                                                  <div class="col-6">
-                                                      <div class="d-flex">
-                                                          <h2 class="m-r-10"><i class="fa fa-map-marker"></i></h2>
-                                                          <div>
-                                                              <span class="f-16 mb-2">Destination Country</span>
-                                                              <h5 class="f-16"><%= results[0].destination_country %></h5>
+                                              <!-- Example for Recipient -->
+                                              <div class="col-lg-6 col-sm-12">
+                                                  <span class="badge badge-light text-dark w-100 text-start f-20">Recipient (Shipment #<%= index + 1 %>)</span>
+                                                  <div class="row mt-4">
+                                                      <div class="col-6">
+                                                          <div class="d-flex">
+                                                              <h2 class="m-r-10"><i class="fa fa-map-marker"></i></h2>
+                                                              <div>
+                                                                  <span class="f-16 mb-2">Destination Country</span>
+                                                                  <h5 class="f-16"><%= result.destination_country %></h5>
+                                                              </div>
                                                           </div>
                                                       </div>
-                                                      <!-- Additional recipient details -->
-                                                  </div>
-                                                  <div class="col-6">
-                                                      <div class="d-flex">
-                                                          <h2 class="m-r-10"><i class="fa fa-map-marker"></i></h2>
-                                                          <div>
-                                                              <span class="f-16 mb-2">Destination City</span>
-                                                              <h5 class="f-16"><%= results[0].destination_city %></h5>
+                                                      <div class="col-6">
+                                                          <div class="d-flex">
+                                                              <h2 class="m-r-10"><i class="fa fa-map-marker"></i></h2>
+                                                              <div>
+                                                                  <span class="f-16 mb-2">Destination City</span>
+                                                                  <h5 class="f-16"><%= result.destination_city %></h5>
+                                                              </div>
                                                           </div>
                                                       </div>
-                                                      <!-- Additional recipient details -->
                                                   </div>
                                               </div>
-                                          </div>
+                                          <% }); %>
                                       </div>
                                   </div>
                               </div>
