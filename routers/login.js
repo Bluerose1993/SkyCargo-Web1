@@ -228,18 +228,16 @@ router.post("/driver_singup", async(req, res) => {
 })
 // ========== Track Deposit ========= //
 
-router.get("/track_deposit", async (req, res) => {
+router.get("/track_deposit", async(req, res) => {
     try {
-        const accessdata = await access(req.user);
-        const data = await mySqlQuery(`SELECT * FROM tbl_general_settings`);
+        const accessdata = await access (req.user)
+        const data = await mySqlQury(`SELECT * FROM tbl_general_settings`)
 
-        res.render("trackdeposit", { data, accessdata });
+        res.render("trackdeposit", {data, accessdata})
     } catch (error) {
-        console.error("Error occurred while retrieving data:", error);
-        res.status(500).send("Server Error"); // or you could render an error page, e.g., res.render("error")
+        console.log(error);
     }
-});
-
+})
 
 router.post("/track_deposit", async (req, res) => {
     try {
@@ -251,7 +249,7 @@ router.post("/track_deposit", async (req, res) => {
                 results: []
             });
         }
-        let results = await mySqlQuery(`SELECT * FROM tbl_register_packages WHERE invoice = ?`, [invoiceNo]);
+        let results = await mySqlQury(`SELECT * FROM tbl_register_packages WHERE invoice = ?`, [invoiceNo]);
         res.render("trackdeposit", {
             results: results,
             invoiceNo: invoiceNo,
