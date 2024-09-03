@@ -243,7 +243,8 @@ router.post("/track_deposit", async (req, res) => {
     try {
         console.log("POST /track_deposit received");
         const invoiceno = req.body.tracking_id;
-     // Using parameterized query to prevent SQL injection
+        
+        // Using parameterized query to prevent SQL injection
         let data = await mySqlQury(`
             SELECT 
                 tbl_register_packages.*, 
@@ -256,13 +257,21 @@ router.post("/track_deposit", async (req, res) => {
             ON 
                 tbl_register_packages.customer = tbl_customers.id
             WHERE 
-                tbl_register_packages.invoice = [invoiceno]);
-        `);
-        
+                tbl_register_packages.invoice = ?`, [invoiceno]);
 
         if (data.length === 0) {
             return res.status(200).json({ status: 'error', message: 'Tracking Number Not Found' });
         }
+
+        // Assuming you want to send the found data as JSON response
+        return res.status(200).json({ status: 'success', data: data });
+
+    } catch (error) {
+        console.error('Error:', error);
+        return res.status(500).json({ status: 'error', message: 'Internal Server Error' });
+    }
+});
+
 
         /*res.render("trackdeposit", {
             results: data,
