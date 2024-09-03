@@ -245,14 +245,6 @@ router.post("/track_deposit", async (req, res) => {
         const invoice_no = req.body.tracking_id;
         console.log("Received invoiceNo:", invoice_no);
 
-        if (!invoice_no) {
-            console.log("No Tracking ID provided");
-            return res.render("trackdeposit", {
-                invoiceNoError: "Tracking ID is required.",
-                results: []
-            });
-        }
-
         console.log("About to execute SQL query");
 
         // Using parameterized query to prevent SQL injection
