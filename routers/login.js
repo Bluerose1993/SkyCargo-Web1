@@ -229,7 +229,7 @@ router.post("/driver_singup", async(req, res) => {
 // ========== Track Deposit ========= //
 
 router.get("/track_deposit", (req, res) => {
-    res.render("tracking", {
+    res.render("trackdeposit", {
         results: [],
         invoiceNo: '',
         invoiceNoError: null
@@ -245,7 +245,7 @@ router.post("/track_deposit", async(req, res) => {
 
         if (!invoiceNo) {
             console.log("No Tracking ID provided");
-            return res.render("tracking", {
+            return res.render("trackdeposit", {
                 invoiceNoError: "Tracking ID is required.",
                 results: []
             });
@@ -254,7 +254,7 @@ router.post("/track_deposit", async(req, res) => {
         let results = await mySqlQury(`SELECT * FROM tbl_register_packages WHERE invoice = ?`, [invoiceNo]);
         console.log("Query results:", results);
 
-        res.render("tracking", {
+        res.render("trackdeposit", {
             results: results,
             invoiceNo: invoiceNo,
             invoiceNoError: results.length === 0 ? "No results found for the provided Tracking ID." : null
