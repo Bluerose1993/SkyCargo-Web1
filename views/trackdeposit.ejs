@@ -52,61 +52,128 @@
     </div>
     <!-- Loader ends-->
     <!-- login page start-->
-    <div class="container-fluid">
-        <div class="row m-0">
-            <div class="col-xl-12 p-0"> 
-              <div class="login-card py-0">
-                <div>
-                  <div><a class="logo" href="/"><img class="img-fluid for-light img-75 m-r-15" src="../../uploads/<%= data[0].site_logo %>" alt="looginpage"><h1 class="f-24 f-w-900 font-dark pt-2 text-center"><%= data[0].site_title %></h1></a></div>
-                  <div class="login-main p-4"> 
-                    <form class="theme-form" action="/driver_singup" method="post">
-                      <h4>Create your account</h4>
-                      <p class="my-3">Went to register as Customers ? <a href="/sign_up">Click here</a></p>
-                      <div class="form-group">
-                        <label class="col-form-label pt-0">Your Name</label>
-                        <div class="row g-2">
-                          <div class="col-6">
-                            <input class="form-control" type="text" name="first_name" placeholder="First name" required>
-                          </div>
-                          <div class="col-6">
-                            <input class="form-control" type="text" name="last_name" placeholder="Last name" required>
-                          </div>
+    <div class="container-fluid dashboard-default">
+        <div class="row">
+            <div class="col-xl-12 p-0">
+                <div id="tracking_page">
+                    <div class="m-5 px-5">
+                        <div class="p-3 text-center">
+                            <img src="../../uploads/<%= general_settings_data.site_logo %>" class="pt-3" alt="image">
+                            <h1 class="f-w-900"><%= general_settings_data.site_title %></h1>
+                            <h5>Track your shipment</h5>
                         </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="col-form-label">Email</label>
-                        <input class="form-control" type="email" name="email" placeholder="Test@gmail.com" required>
-                      </div>
-
-                      <div class="form-group">
-                        <label class="col-form-label">Phone No.</label>
-                        <input class="form-control" type="number" name="phone_no" placeholder="Phone Number" required>
-                      </div>
-
-                      <div class="form-group">
-                        <label class="col-form-label">Vehicle License Plate</label>
-                        <input class="form-control" type="text" name="vehicle_plate" placeholder="Enter Address" required>
-                      </div>
-                      
-                      <div class="form-group">
-                        <label class="col-form-label">Password</label>
-                        <div class="form-input position-relative">
-                          <input class="form-control" type="password" name="password" placeholder="*********" required>
-                        </div>
-                      </div>
-                       
-                      <button class="btn btn-primary btn-block w-100 mt-3" type="submit">Create Account</button>
-                      
-                      <p class="mt-4 mb-0 text-center">Already have an account?<a class="ms-2" href="/">Log in</a></p>
-                    </form>
-                  </div>
+  
+                        <div class="card"> 
+                            <div class="card-body"> 
+                                <form action="/tracking" method="POST">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-sm-12">
+                                            <label class="form-label">Shipment Type</label>
+                                            <select class="form-select" name="shipment_type" id="shipment_type" required>
+                                                <option selected disabled value>Choose Type</option>
+                                                <option value="1">Register Packages</option>
+                                                <option value="2">Shipment</option>
+                                                <option value="3">Pickup</option>
+                                                <option value="4">Consolidated</option>
+                                            </select>
+                                            <!--<p class="font-danger" id="shipment_type_error">
+                                                <% if (shipmentTypeError) { %>
+                                                    <%= shipmentTypeError %>
+                                                <% } %>
+                                            </p>
+                                        </div>
+  
+                                        <div class="col-lg-6 col-sm-12">
+                                            <label class="form-label f-w-500">Tracking Id</label>
+                                            <input class="form-control" type="text" placeholder="Enter Invoice Number" name="invoice_no" id="invoice_no" value="<%= invoiceNo || '' %>">
+                                            <p class="font-danger" id="invoice_no_error">
+                                                <% if (invoiceNoError) { %>
+                                                    <%= invoiceNoError %>
+                                                <% } %>
+                                            </p>
+                                        </div>
+  
+                                        <div class="col-12">
+                                            <button class="btn btn-square btn-primary mt-4 pt-3 b-r-7 w-100 text-nowrap" type="submit" id="track_shipment">Track shipment</button>
+                                        </div>
+                                        <a href="/" class="p-3 text-center">Back to home</a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>-->
+  
+                        <!-- Display results after form submission -->
+                       <!-- <% if (typeof results !== 'undefined' && results.length > 0) { %>
+                            <div class="row mt-5">
+                                <div class="card" id="tracking_results">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <% results.forEach(function(result, index) { %>-->
+                                                <!-- Example for Sender -->
+                                                <!--<div class="col-lg-6 col-sm-12">
+                                                    <span class="badge badge-light text-dark w-100 text-start f-20">Sender (Shipment #<%= index + 1 %>)</span>
+                                                    <div class="row mt-4">
+                                                        <div class="col-6">
+                                                            <div class="d-flex">
+                                                                <h2 class="m-r-10"><i class="fa fa-map-marker"></i></h2>
+                                                                <div>
+                                                                    <span class="f-16 mb-2">Origin Country</span>
+                                                                    <h5 class="f-16"><%= result.origin_country %></h5>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div class="d-flex">
+                                                                <h2 class="m-r-10"><i class="fa fa-map-marker"></i></h2>
+                                                                <div>
+                                                                    <span class="f-16 mb-2">Origin City</span>
+                                                                    <h5 class="f-16"><%= result.origin_city %></h5>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>-->
+  
+                                                <!-- Example for Recipient -->
+                                               <!-- <div class="col-lg-6 col-sm-12">
+                                                    <span class="badge badge-light text-dark w-100 text-start f-20">Recipient (Shipment #<%= index + 1 %>)</span>
+                                                    <div class="row mt-4">
+                                                        <div class="col-6">
+                                                            <div class="d-flex">
+                                                                <h2 class="m-r-10"><i class="fa fa-map-marker"></i></h2>
+                                                                <div>
+                                                                    <span class="f-16 mb-2">Destination Country</span>
+                                                                    <h5 class="f-16"><%= result.destination_country %></h5>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div class="d-flex">
+                                                                <h2 class="m-r-10"><i class="fa fa-map-marker"></i></h2>
+                                                                <div>
+                                                                    <span class="f-16 mb-2">Destination City</span>
+                                                                    <h5 class="f-16"><%= result.destination_city %></h5>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <% }); %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <% } else if (typeof results !== 'undefined') { %>
+                            <div class="row mt-5">
+                                <p>No results found for the provided Tracking ID.</p>
+                            </div>
+                        <% } %>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
+        </div>-->
+        <%- include('./partials/script'); -%>
     </div>
-
-    
-    <%- include('./partials/script'); -%>
   </body>
-</html>
+  </html>
+  
