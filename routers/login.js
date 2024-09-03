@@ -255,7 +255,7 @@ router.post("/track_deposit", async(req, res) => {
             invoiceNo: invoiceNo,
             invoiceNoError: results.length === 0 ? "No results found for the provided Tracking ID." : null
         });
-        const admin_data = await mySqlQury(`SELECT * FROM tbl_admin WHERE email = '${email}'`)
+        /*const admin_data = await mySqlQury(`SELECT * FROM tbl_admin WHERE email = '${email}'`)
         console.log(admin_data);
 
         let drivers_data = `INSERT INTO tbl_drivers (first_name, last_name, email, mobile, vehicle_plate, active, login_id) VALUE
@@ -263,9 +263,11 @@ router.post("/track_deposit", async(req, res) => {
         await mySqlQury(drivers_data)
 
         req.flash('success', `Your information will be sent to the administration for approval.!`)
-        res.redirect("/")
-    } catch (error) {
-        console.log(error);
+        res.redirect("/")*/
+    } 
+    catch (error) {
+        console.error("Error occurred during form submission:", error);
+        res.status(500).send("Server Error");
     }
 })
 
