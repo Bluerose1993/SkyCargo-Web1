@@ -241,7 +241,10 @@ router.get("/track_deposit", async(req, res) => {
 
 router.post("/track_deposit", async (req, res) => {
     try {
-        const invoiceNo = req.body.invoiceNo; // Accessing the specific field from req.body
+        console.log("POST /track_deposit received");
+        const invoiceNo = req.body.invoiceNo;
+        console.log("Received invoiceNo:", invoiceNo);
+
         if (!invoiceNo) {
             console.log("No Tracking ID provided");
             return res.render("trackdeposit", {
@@ -249,8 +252,10 @@ router.post("/track_deposit", async (req, res) => {
                 results: []
             });
         }
-        console.log("Received invoiceNo:", invoiceNo);
-        let results = await mySqlQury(`SELECT * FROM tbl_register_packages WHERE invoice = ?`, [invoiceNo]);
+
+        let results = await mySqlQuery(`SELECT * FROM tbl_register_packages WHERE invoice = ?`, [invoiceNo]);
+        console.log("Query results:", results);
+
         res.render("trackdeposit", {
             results: results,
             invoiceNo: invoiceNo,
@@ -261,8 +266,8 @@ router.post("/track_deposit", async (req, res) => {
         console.error("Error occurred during form submission:", error.message, error.stack);
         res.status(500).send("Server Error");
     }
-    
 });
+
 
 
 
