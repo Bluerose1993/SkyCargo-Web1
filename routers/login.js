@@ -226,6 +226,41 @@ router.post("/driver_singup", async(req, res) => {
         console.log(error);
     }
 })
+// ========== Track Deposit ========= //
+
+router.get("/track_deposit", async(req, res) => {
+    try {
+        const accessdata = await access (req.user)
+        const data = await mySqlQury(`SELECT * FROM tbl_general_settings`)
+
+        res.render("trackdeposit", {data, accessdata})
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+router.post("/track_deposit", async(req, res) => {
+    try {
+        const {first_name, last_name, email, phone_no, vehicle_plate, password} = req.body
+
+        const hash = await bcrypt.hash(password, 10)
+
+        let query = "INSERT INTO tbl_admin (first_name, last_name, email, phone_no, password, role) VALUE ('"+ first_name +"', '"+ last_name +"', '"+ email +"', '"+ phone_no +"', '"+ hash +"', 3)"
+        await mySqlQury(query)
+
+        const admin_data = await mySqlQury(`SELECT * FROM tbl_admin WHERE email = '${email}'`)
+        console.log(admin_data);
+
+        let drivers_data = `INSERT INTO tbl_drivers (first_name, last_name, email, mobile, vehicle_plate, active, login_id) VALUE
+        ('${first_name}', '${last_name}', '${email}', '${phone_no}', '${vehicle_plate}', '0', '${admin_data[0].id}')`
+        await mySqlQury(drivers_data)
+
+        req.flash('success', `Your information will be sent to the administration for approval.!`)
+        res.redirect("/")
+    } catch (error) {
+        console.log(error);
+    }
+})
 
 
 // =========== logout ============ //
