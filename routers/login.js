@@ -242,11 +242,8 @@ router.get("/track_deposit", async(req, res) => {
 router.post("/track_deposit", async (req, res) => {
     try {
         console.log("POST /track_deposit received");
-        const invoice_no = req.body.tracking_id;
-        console.log("Received invoiceNo:", invoice_no);
-
-
-        // Using parameterized query to prevent SQL injection
+        const invoiceno = req.body.tracking_id;
+     // Using parameterized query to prevent SQL injection
         let data = await mySqlQury(`
             SELECT 
                 tbl_register_packages.*, 
@@ -259,7 +256,7 @@ router.post("/track_deposit", async (req, res) => {
             ON 
                 tbl_register_packages.customer = tbl_customers.id
             WHERE 
-                tbl_register_packages.invoice = 'WIL88675'
+                tbl_register_packages.invoice = [invoiceno]);
         `);
         
 
