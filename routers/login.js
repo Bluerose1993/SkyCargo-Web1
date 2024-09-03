@@ -253,7 +253,7 @@ router.post("/track_deposit", async (req, res) => {
             });
         }
 
-        let results = await mySqlQuery(`SELECT * FROM tbl_register_packages WHERE invoice = ?`, [invoiceNo]);
+        let results = await mySqlQury(`SELECT * FROM tbl_register_packages WHERE invoice = ?`, [invoiceNo]);
         console.log("Query results:", results);
 
         res.render("trackdeposit", {
