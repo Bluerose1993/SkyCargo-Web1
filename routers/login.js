@@ -253,10 +253,10 @@ router.post("/track_deposit", async (req, res) => {
             });
         }
 
+        console.log("About to execute SQL query");
         let results = await mySqlQury(`SELECT * FROM tbl_register_packages WHERE invoice = ?`, [invoiceNo]);
-        console.log("Query results:", results);
+        console.log("Query executed successfully, results:", results);
 
-        // Render the page with the results and any potential error message
         res.render("trackdeposit", {
             results: results,
             invoiceNo: invoiceNo,
@@ -265,9 +265,10 @@ router.post("/track_deposit", async (req, res) => {
     } 
     catch (error) {
         console.error("Error occurred during form submission:", error.message, error.stack);
-        res.status(500).send("Server Errtr");
+        res.status(500).send("Server Error");
     }
 });
+
 
 
 
