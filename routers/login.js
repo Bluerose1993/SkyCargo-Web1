@@ -248,22 +248,22 @@ router.post("/track_deposit", async (req, res) => {
         console.log("About to execute SQL query");
 
         // Using parameterized query to prevent SQL injection
-        let data = await mySqlQury(`SELECT tbl_register_packages.*, 
+       /* let data = await mySqlQury(`SELECT tbl_register_packages.*, 
             (SELECT tbl_customers.first_name FROM tbl_customers WHERE tbl_register_packages.customer = tbl_customers.id) AS customer_firstname,
             (SELECT tbl_customers.last_name FROM tbl_customers WHERE tbl_register_packages.customer = tbl_customers.id) AS customer_lastname
             FROM tbl_register_packages 
-            WHERE invoice = ?`, [invoice_no]);
+            WHERE invoice = ?`, [invoice_no]);*/
 
-        if (data.length === 0) {
+        /*if (data.length === 0) {
             return res.status(200).json({ status: 'error', message: 'Tracking Number Not Found' });
-        }
+        }*/
 
         /*res.render("trackdeposit", {
             results: data,
             invoice_no: invoice_no,
             invoiceNoError: data.length === 0 ? "No results found for the provided Tracking ID." : null
         });*/
-        res.status(200).json({ status: 'error', message: 'Tracking Number Not Found' });
+        res.status(200).json({ status: 'error', message: 'Tracking Number Nots Found' });
     } catch (error) {
         console.error("Error occurred during form submission:", error.message, error.stack);
         res.status(500).send("Server Error");
