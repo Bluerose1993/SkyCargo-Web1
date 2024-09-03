@@ -59,17 +59,17 @@
                 <div>
                   <div><a class="logo" href="/"><img class="img-fluid for-light img-75 m-r-15" src="../../uploads/<%= data[0].site_logo %>" alt="looginpage"><h1 class="f-24 f-w-900 font-dark pt-2 text-center"><%= data[0].site_title %></h1></a></div>
                   <div class="login-main p-4"> 
-                    <form class="theme-form" action="/track_deposit" method="post">
-                      <h4>Track Your Deposit</h4>
-                      <div class="col-lg-6 col-sm-12">
-                        <label class="form-label f-w-500">Tracking Id</label>
-                        <input class="form-control" type="text" placeholder="Enter Invoice Number" id="invoice_no">
-                        <p class="font-danger" id="invoice_no_error"></p>
+                    <form class="theme-form" action="/track_deposit" method="post" id="trackForm">
+                        <h4>Track Your Deposit</h4>
+                        <div class="col-lg-6 col-sm-12">
+                            <label class="form-label f-w-500">Tracking Id</label>
+                            <input class="form-control" type="text" placeholder="Enter Invoice Number" name="invoiceNo" id="invoice_no">
+                            <p class="font-danger" id="invoice_no_error"></p>
                         </div>
-                      </div>
-                      <div class="col-12">
-                        <button class="btn btn-square btn-primary mt-4 pt-3 b-r-7 w-100 text-nowrap" type="submit" id="track_shipment"> Track Deposits </button>
-                    </div>
+                        <div class="col-12">
+                            <button class="btn btn-square btn-primary mt-4 pt-3 b-r-7 w-100 text-nowrap" type="submit" id="submit_button">Track Deposits</button>
+                        </div>
+                    </form>                    
 
                     <div class="card"> 
                         <div class="card-header pb-0">
