@@ -58,7 +58,7 @@
                                               <option value="3">Pickup</option>
                                               <option value="4">Consolidated</option>
                                           </select>
-                                          <p class="font-danger" id="shipment_type_error">
+                                          <!--<p class="font-danger" id="shipment_type_error">
                                               <% if (shipmentTypeError) { %>
                                                   <%= shipmentTypeError %>
                                               <% } %>
@@ -82,17 +82,17 @@
                                   </div>
                               </form>
                           </div>
-                      </div>
+                      </div>-->
 
                       <!-- Display results after form submission -->
-                      <% if (typeof results !== 'undefined' && results.length > 0) { %>
+                     <!-- <% if (typeof results !== 'undefined' && results.length > 0) { %>
                           <div class="row mt-5">
                               <div class="card" id="tracking_results">
                                   <div class="card-body">
                                       <div class="row">
-                                          <% results.forEach(function(result, index) { %>
+                                          <% results.forEach(function(result, index) { %>-->
                                               <!-- Example for Sender -->
-                                              <div class="col-lg-6 col-sm-12">
+                                              <!--<div class="col-lg-6 col-sm-12">
                                                   <span class="badge badge-light text-dark w-100 text-start f-20">Sender (Shipment #<%= index + 1 %>)</span>
                                                   <div class="row mt-4">
                                                       <div class="col-6">
@@ -114,10 +114,10 @@
                                                           </div>
                                                       </div>
                                                   </div>
-                                              </div>
+                                              </div>-->
 
                                               <!-- Example for Recipient -->
-                                              <div class="col-lg-6 col-sm-12">
+                                             <!-- <div class="col-lg-6 col-sm-12">
                                                   <span class="badge badge-light text-dark w-100 text-start f-20">Recipient (Shipment #<%= index + 1 %>)</span>
                                                   <div class="row mt-4">
                                                       <div class="col-6">
@@ -153,7 +153,7 @@
                   </div>
               </div>
           </div>
-      </div>
+      </div>-->
       <%- include('./partials/script'); -%>
   </div>
 </body>
