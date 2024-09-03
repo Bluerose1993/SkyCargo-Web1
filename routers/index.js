@@ -286,6 +286,6 @@ router.get("/tracking", (req, res) => {
         invoiceNo: '',
         invoiceNoError: null
     });
-});
+})
 
 module.exports = router;
