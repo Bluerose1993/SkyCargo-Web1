@@ -256,18 +256,19 @@ router.post("/track_deposit", async (req, res) => {
         let results = await mySqlQury(`SELECT * FROM tbl_register_packages WHERE invoice = ?`, [invoiceNo]);
         console.log("Query results:", results);
 
+        // Render the page with the results and any potential error message
         res.render("trackdeposit", {
             results: results,
             invoiceNo: invoiceNo,
             invoiceNoError: results.length === 0 ? "No results found for the provided Tracking ID." : null
         });
-        res.status(200).send("Tracking ID received. Further processing logic here.");
     } 
     catch (error) {
         console.error("Error occurred during form submission:", error.message, error.stack);
         res.status(500).send("Server Error");
     }
 });
+
 
 
 
