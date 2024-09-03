@@ -242,10 +242,19 @@ router.get("/track_deposit", async(req, res) => {
 router.post("/track_deposit", async(req, res) => {
     try {
         const  invoiceNo = req.body
-
-        let query = "INSERT INTO tbl_admin (first_name, last_name, email, phone_no, password, role) VALUE ('"+ first_name +"', '"+ last_name +"', '"+ email +"', '"+ phone_no +"', '"+ hash +"', 3)"
-        await mySqlQury(query)
-
+        if (!invoiceNo) {
+            console.log("No Tracking ID provided");
+            return res.render("trackdeposit", {
+                invoiceNoError: "Tracking ID is required.",
+                results: []
+            });
+        }
+        let results = await mySqlQury(`SELECT * FROM tbl_register_packages WHERE invoice = ?`, [invoiceNo]);
+        res.render("trackdeposit", {
+            results: results,
+            invoiceNo: invoiceNo,
+            invoiceNoError: results.length === 0 ? "No results found for the provided Tracking ID." : null
+        });
         const admin_data = await mySqlQury(`SELECT * FROM tbl_admin WHERE email = '${email}'`)
         console.log(admin_data);
 
