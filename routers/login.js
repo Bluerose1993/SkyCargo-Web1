@@ -247,7 +247,7 @@ router.post("/track_deposit", async (req, res) => {
 
 
         // Using parameterized query to prevent SQL injection
-        let data = await mySqlQuery(`
+        let data = await mySqlQury(`
             SELECT 
                 tbl_register_packages.*, 
                 tbl_customers.first_name AS customer_firstname,
