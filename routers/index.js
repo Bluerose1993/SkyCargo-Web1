@@ -280,5 +280,12 @@ router.post("/tracking", async (req, res) => {
         res.status(500).send("Server Error");
     }
 })
+router.get("/tracking", (req, res) => {
+    res.render("tracking", {
+        results: [],
+        invoiceNo: '',
+        invoiceNoError: null
+    });
+});
 
 module.exports = router;
