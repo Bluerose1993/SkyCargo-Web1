@@ -266,11 +266,12 @@ router.post("/track_deposit", async (req, res) => {
             return res.status(200).json({ status: 'error', message: 'Tracking Number Not Found' });
         }
 
-        res.render("trackdeposit", {
+        /*res.render("trackdeposit", {
             results: data,
             invoice_no: invoice_no,
             invoiceNoError: data.length === 0 ? "No results found for the provided Tracking ID." : null
-        });
+        });*/
+        res.status(200).json({ status: 'error', message: 'Tracking Number Not Found' });
     } catch (error) {
         console.error("Error occurred during form submission:", error.message, error.stack);
         res.status(500).send("Server Error");
