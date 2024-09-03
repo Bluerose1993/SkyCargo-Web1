@@ -249,6 +249,7 @@ router.post("/track_deposit", async (req, res) => {
                 results: []
             });
         }
+        console.log("Received invoiceNo:", invoiceNo);
         let results = await mySqlQury(`SELECT * FROM tbl_register_packages WHERE invoice = ?`, [invoiceNo]);
         res.render("trackdeposit", {
             results: results,
@@ -257,9 +258,10 @@ router.post("/track_deposit", async (req, res) => {
         });
     } 
     catch (error) {
-        console.error("Error occurred during form submission:", error);
+        console.error("Error occurred during form submission:", error.message, error.stack);
         res.status(500).send("Server Error");
     }
+    
 });
 
 
