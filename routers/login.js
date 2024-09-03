@@ -245,7 +245,7 @@ router.post("/track_deposit", async (req, res) => {
         const invoiceNo = req.body.tracking_id;
         console.log("Received invoiceNo:", invoiceNo);
 
-       /* if (!invoiceNo) {
+        if (!invoiceNo) {
             console.log("No Tracking ID provided");
             return res.render("trackdeposit", {
                 invoiceNoError: "Tracking ID is required.",
@@ -260,7 +260,7 @@ router.post("/track_deposit", async (req, res) => {
             results: results,
             invoiceNo: invoiceNo,
             invoiceNoError: results.length === 0 ? "No results found for the provided Tracking ID." : null
-        });*/
+        });
         res.status(200).send("Tracking ID received. Further processing logic here.");
     } 
     catch (error) {
