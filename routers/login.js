@@ -244,8 +244,12 @@ router.get("/track_deposit", async (req, res) => {
 router.post("/track_deposit", async (req, res) => {
     try {
         console.log("POST /track_deposit received");
+        const invoiceno = req.body.tracking_id;
 
-        // Using hardcoded invoice number for testing
+        // Log the received invoice number
+        console.log("Received invoice number:", invoiceno);
+        
+        // Proceed with the query as before
         let data = await mySqlQury(`
             SELECT 
                 tbl_register_packages.*, 
@@ -258,28 +262,20 @@ router.post("/track_deposit", async (req, res) => {
             ON 
                 tbl_register_packages.customer = tbl_customers.id
             WHERE 
-                tbl_register_packages.invoice = 'WIL88675'`);
+                tbl_register_packages.invoice = ?`, [invoiceno]);
 
-        // If results are found, you can either render a page or send a JSON response
-        // Uncomment and modify the following line if you want to render a view
-        /*
-        res.render("trackdeposit", {
-            results: data,
-            invoice_no: 'WIL88675',
-            invoiceNoError: data.length === 0 ? "No results found for the provided Tracking ID." : null
-        });
-        */
+        if (data.length === 0) {
+            return res.status(200).json({ status: 'error', message: 'Tracking Number Not Found' });
+        }
 
-        // Send the found data as JSON response
         return res.status(200).json({ status: 'success', data: data });
 
     } catch (error) {
         console.error("Error occurred during form submission:", error.message, error.stack);
-
-        // Return a server error response
         return res.status(500).json({ status: 'error', message: 'Internal Server Error' });
     }
 });
+
 
 
 // =========== logout ============ //
