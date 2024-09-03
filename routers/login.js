@@ -265,7 +265,7 @@ router.post("/track_deposit", async (req, res) => {
     } 
     catch (error) {
         console.error("Error occurred during form submission:", error.message, error.stack);
-        res.status(500).send("Server Error");
+        res.status(500).send("Server Errtr");
     }
 });
 
