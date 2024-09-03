@@ -261,11 +261,6 @@ router.post("/track_deposit", async (req, res) => {
             WHERE 
                 tbl_register_packages.invoice = ?`, [invoiceno]);
 
-        if (data.length === 0) {
-            // If no results are found, return an error response
-            return res.status(200).json({ status: 'error', message: 'Tracking Number Not Found' });
-        }
-
         // If results are found, you can either render a page or send a JSON response
         // Uncomment and modify the following line if you want to render a view
         /*
