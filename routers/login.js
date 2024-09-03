@@ -228,42 +228,38 @@ router.post("/driver_singup", async(req, res) => {
 })
 // ========== Track Deposit ========= //
 
-router.get("/track_deposit", (req, res) => {
-    res.render("trackdeposit", {
-        results: [],
-        invoiceNo: '',
-        invoiceNoError: null
-    });
+router.get("/track_deposit", async(req, res) => {
+    try {
+        const accessdata = await access (req.user)
+        const data = await mySqlQury(`SELECT * FROM tbl_general_settings`)
+
+        res.render("trackdeposit", {data, accessdata})
+    } catch (error) {
+        console.log(error);
+    }
 })
 
 router.post("/track_deposit", async(req, res) => {
     try {
-        console.log("Received form submission:", req.body);
-        
-        const invoiceNo = req.body.invoice_no;
-        console.log("Tracking ID:", invoiceNo);
+        const  invoiceNo = req.body
 
-        if (!invoiceNo) {
-            console.log("No Tracking ID provided");
-            return res.render("trackdeposit", {
-                invoiceNoError: "Tracking ID is required.",
-                results: []
-            });
-        }
+        let query = "INSERT INTO tbl_admin (first_name, last_name, email, phone_no, password, role) VALUE ('"+ first_name +"', '"+ last_name +"', '"+ email +"', '"+ phone_no +"', '"+ hash +"', 3)"
+        await mySqlQury(query)
 
-        let results = await mySqlQury(`SELECT * FROM tbl_register_packages WHERE invoice = ?`, [invoiceNo]);
-        console.log("Query results:", results);
+        const admin_data = await mySqlQury(`SELECT * FROM tbl_admin WHERE email = '${email}'`)
+        console.log(admin_data);
 
-        res.render("trackdeposit", {
-            results: results,
-            invoiceNo: invoiceNo,
-            invoiceNoError: results.length === 0 ? "No results found for the provided Tracking ID." : null
-        });
+        let drivers_data = `INSERT INTO tbl_drivers (first_name, last_name, email, mobile, vehicle_plate, active, login_id) VALUE
+        ('${first_name}', '${last_name}', '${email}', '${phone_no}', '${vehicle_plate}', '0', '${admin_data[0].id}')`
+        await mySqlQury(drivers_data)
+
+        req.flash('success', `Your information will be sent to the administration for approval.!`)
+        res.redirect("/")
     } catch (error) {
-        console.error("Error occurred during form submission:", error);
-        res.status(500).send("Server Error");
+        console.log(error);
     }
 })
+
 
 // =========== logout ============ //
 router.get("/logout", (req, res) => {
