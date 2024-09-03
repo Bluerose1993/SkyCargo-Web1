@@ -241,11 +241,11 @@ router.get("/track_deposit", async(req, res) => {
 
 router.post("/track_deposit", async (req, res) => {
     try {
-        console.log("POST/track_deposit received");
-        const invoiceNo = req.body.tracking_id;
-        console.log("Received invoiceNo:", invoiceNo);
+        console.log("POST /track_deposit received");
+        const invoice_no = req.body.tracking_id;
+        console.log("Received invoiceNo:", invoice_no);
 
-        if (!invoiceNo) {
+        if (!invoice_no) {
             console.log("No Tracking ID provided");
             return res.render("trackdeposit", {
                 invoiceNoError: "Tracking ID is required.",
@@ -254,20 +254,29 @@ router.post("/track_deposit", async (req, res) => {
         }
 
         console.log("About to execute SQL query");
-        let results = await mySqlQury(`SELECT * FROM tbl_register_packages WHERE invoice = ?`, [invoiceNo]);
-        console.log("Query executed successfully, results:", results);
+
+        // Using parameterized query to prevent SQL injection
+        let data = await mySqlQury(`SELECT tbl_register_packages.*, 
+            (SELECT tbl_customers.first_name FROM tbl_customers WHERE tbl_register_packages.customer = tbl_customers.id) AS customer_firstname,
+            (SELECT tbl_customers.last_name FROM tbl_customers WHERE tbl_register_packages.customer = tbl_customers.id) AS customer_lastname
+            FROM tbl_register_packages 
+            WHERE invoice = ?`, [invoice_no]);
+
+        if (data.length === 0) {
+            return res.status(200).json({ status: 'error', message: 'Tracking Number Not Found' });
+        }
 
         res.render("trackdeposit", {
-            results: results,
-            invoiceNo: invoiceNo,
-            invoiceNoError: results.length === 0 ? "No results found for the provided Tracking ID." : null
+            results: data,
+            invoice_no: invoice_no,
+            invoiceNoError: data.length === 0 ? "No results found for the provided Tracking ID." : null
         });
-    } 
-    catch (error) {
+    } catch (error) {
         console.error("Error occurred during form submission:", error.message, error.stack);
         res.status(500).send("Server Error");
     }
 });
+
 
 
 
