@@ -228,22 +228,24 @@ router.post("/driver_singup", async(req, res) => {
 })
 // ========== Track Deposit ========= //
 
-router.get("/track_deposit", async(req, res) => {
+router.get("/track_deposit", async (req, res) => {
     try {
-        const accessdata = await access (req.user)
-        const data = await mySqlQury(`SELECT * FROM tbl_general_settings`)
+        const accessdata = await access(req.user);
+        const data = await mySqlQury(`SELECT * FROM tbl_general_settings`);
 
-        res.render("trackdeposit", {data, accessdata})
+        // Render the 'trackdeposit' view with data and accessdata
+        res.render("trackdeposit", { data, accessdata });
     } catch (error) {
         console.log(error);
+        res.status(500).send("Server Error");
     }
-})
+});
 
 router.post("/track_deposit", async (req, res) => {
     try {
         console.log("POST /track_deposit received");
         const invoiceno = req.body.tracking_id;
-        
+
         // Using parameterized query to prevent SQL injection
         let data = await mySqlQury(`
             SELECT 
@@ -260,52 +262,30 @@ router.post("/track_deposit", async (req, res) => {
                 tbl_register_packages.invoice = ?`, [invoiceno]);
 
         if (data.length === 0) {
+            // If no results are found, return an error response
             return res.status(200).json({ status: 'error', message: 'Tracking Number Not Found' });
         }
 
-        // Assuming you want to send the found data as JSON response
+        // If results are found, you can either render a page or send a JSON response
+        // Uncomment and modify the following line if you want to render a view
+        /*
+        res.render("trackdeposit", {
+            results: data,
+            invoice_no: invoiceno,
+            invoiceNoError: data.length === 0 ? "No results found for the provided Tracking ID." : null
+        });
+        */
+
+        // Send the found data as JSON response
         return res.status(200).json({ status: 'success', data: data });
 
     } catch (error) {
-        console.error('Error:', error);
+        console.error("Error occurred during form submission:", error.message, error.stack);
+
+        // Return a server error response
         return res.status(500).json({ status: 'error', message: 'Internal Server Error' });
     }
 });
-
-
-        /*res.render("trackdeposit", {
-            results: data,
-            invoice_no: invoice_no,
-            invoiceNoError: data.length === 0 ? "No results found for the provided Tracking ID." : null
-        });*/
-        res.status(200).json({ status: 'error', message: 'Tracking Number Not Found' });
-    } catch (error) {
-        console.error("Error occurred during form submission:", error.message, error.stack);
-        res.status(500).send("Server Error");
-    }
-});
-
-// Function to test database connection
-async function testDatabaseConnection() {
-    try {
-        // Example: Testing the database connection
-        // Replace `mySqlClient` with your actual MySQL client or connection pool
-        const connection = await mySqlClient.getConnection(); // Get a connection from the pool
-        await connection.ping(); // Test the connection
-        connection.release(); // Release the connection back to the pool
-        return true; // Connection is successful
-    } catch (error) {
-        console.error("Database connection error:", error.message);
-        return false; // Connection failed
-    }
-}
-
-
-
-
-
-
-
 
 // =========== logout ============ //
 router.get("/logout", (req, res) => {
