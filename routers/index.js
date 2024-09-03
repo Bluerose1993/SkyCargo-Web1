@@ -267,7 +267,7 @@ router.post("/tracking", async (req, res) => {
             });
         }
 
-        let results = await mySqlQury(`SELECT * FROM tbl_register_packages WHERE shipping_id = ?`, [invoiceNo]);
+        let results = await mySqlQury(`SELECT * FROM tbl_register_packages WHERE invoice = ?`, [invoiceNo]);
         console.log("Query results:", results);
 
         res.render("tracking", {
