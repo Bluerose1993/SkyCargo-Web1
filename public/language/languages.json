@@ -40,6 +40,8 @@
         "Address" : "Address",
         "City" : "City",
         "Phone_No" : "Phone No.",
+        "Gold" : "Kg(s)",
+        "land" : "Acre(s)",
 
         "Add_Client" : "Add Client",
         "Client" : "Client",
