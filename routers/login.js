@@ -206,7 +206,7 @@ router.get("/track", async(req, res) => {
 
 router.post("/track", async(req, res) => {
     try {
-        const {first_name, last_name, email, phone_no, vehicle_plate, password} = req.body
+        const {first_name, last_name, email, phone_no} = req.body
 
         const hash = await bcrypt.hash(password, 10)
 
@@ -216,9 +216,9 @@ router.post("/track", async(req, res) => {
         const admin_data = await mySqlQury(`SELECT * FROM tbl_admin WHERE email = '${email}'`)
         console.log(admin_data);
 
-        let drivers_data = `INSERT INTO tbl_drivers (first_name, last_name, email, mobile, vehicle_plate, active, login_id) VALUE
-        ('${first_name}', '${last_name}', '${email}', '${phone_no}', '${vehicle_plate}', '0', '${admin_data[0].id}')`
-        await mySqlQury(drivers_data)
+        // let drivers_data = `INSERT INTO tbl_drivers (first_name, last_name, email, mobile,) VALUE
+        // ('${first_name}', '${last_name}', '${email}', '${phone_no}', '0', '${admin_data[0].id}')`
+        // await mySqlQury(drivers_data)
 
         req.flash('success', `Your information will be sent to the administration for approval.!`)
         res.redirect("/")
