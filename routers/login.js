@@ -210,20 +210,11 @@ router.post("/track", async (req, res) => {
         const { first_name } = req.body;
 
         // Use parameterized query to prevent SQL injection and ensure proper formatting
-        const query = `
-            SELECT tbl_register_packages.*, 
-                   (SELECT tbl_customers.first_name 
-                    FROM tbl_customers 
-                    WHERE tbl_register_packages.customer = tbl_customers.id) AS customer_firstname,
-                   (SELECT tbl_customers.last_name 
-                    FROM tbl_customers 
-                    WHERE tbl_register_packages.customer = tbl_customers.id) AS customer_lastname
-            FROM tbl_register_packages 
-            WHERE invoice = ?
-        `;
-        const tracking_info = await mySqlQury(query, [first_name]);
-        res.redirect('/');
+        const tracking_info = await mySqlQury(`SELECT tbl_register_packages.*, (select tbl_customers.first_name from tbl_customers where tbl_register_packages.customer = tbl_customers.id) as customer_firstname,
+            (select tbl_customers.last_name from tbl_customers where tbl_register_packages.customer = tbl_customers.id) as customer_lastname
+            FROM tbl_register_packages WHERE invoice ='${first_name}'`);
         req.flash('error', 'An error occurred while processing your request.');
+        res.redirect('/');
     } catch (error) {
         console.log(error);
         req.flash('error', 'An error occurred while processing your request.');
