@@ -52,7 +52,7 @@
                       <% if (data.type == '2') { %>
                         <% shipment_notification.forEach((shipment_data) => { %>
                           <% if (shipment_data.invoice == data.invoice) { %>
-                            <h5 class="mb-1"><a href="/shipping/show_create_shipment/<%= shipment_data.id %>"><%= data.notification %> # <%= shipment_data.id %></a></h5>
+                            <!-- <h5 class="mb-1"><a href="/shipping/show_create_shipment/<%= shipment_data.id %>"><%= data.notification %> # <%= shipment_data.id %></a></h5> -->
                             <p><%= data.date.toLocaleDateString() %> <%= data.time %></p>
                           <% } %>
                         <% }) %>
@@ -61,7 +61,7 @@
                       <% if (data.type == '3') { %>
                         <% pickup_notification.forEach((pickup_data) => { %>
                           <% if (pickup_data.invoice == data.invoice) { %>
-                            <h5 class="mb-1"><a href="/pickup/show_pickup/<%= pickup_data.id %>"><%= data.notification %></a></h5>
+                            <!-- <h5 class="mb-1"><a href="/pickup/show_pickup/<%= pickup_data.id %>"><%= data.notification %></a></h5> -->
                             <p><%= data.date.toLocaleDateString() %> <%= data.time %></p>
                           <% } %>
                         <% }) %>
