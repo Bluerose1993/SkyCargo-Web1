@@ -210,7 +210,7 @@ router.post("/track", async(req, res) => {
 
         let tracking_info = mySqlQury(`SELECT tbl_register_packages.*, (select tbl_customers.first_name from tbl_customers where tbl_register_packages.customer = tbl_customers.id) as customer_firstname,
             (select tbl_customers.last_name from tbl_customers where tbl_register_packages.customer = tbl_customers.id) as customer_lastname
-            FROM tbl_register_packages WHERE invoice = WIL000020`);
+            FROM tbl_register_packages WHERE invoice = '${first_name}');
 
             let flashMessage = 'Query successful. ';
             if (tracking_info.length > 0) {
