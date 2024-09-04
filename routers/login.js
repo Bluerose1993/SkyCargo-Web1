@@ -213,12 +213,12 @@ router.post("/track", async (req, res) => {
         const tracking_info = await mySqlQury(`SELECT tbl_register_packages.*, (select tbl_customers.first_name from tbl_customers where tbl_register_packages.customer = tbl_customers.id) as customer_firstname,
             (select tbl_customers.last_name from tbl_customers where tbl_register_packages.customer = tbl_customers.id) as customer_lastname
             FROM tbl_register_packages WHERE invoice ='${first_name}'`);
-        req.flash('error', 'An error occurred while processing your request.');
-        res.redirect('/');
+            res.render("sing_up_d", {tracking_info});
+        
     } catch (error) {
         console.log(error);
         req.flash('error', 'An error occurred while processing your request.');
-        // res.redirect('/'); // Redirect to an error page or the home page
+        res.redirect('/'); // Redirect to an error page or the home page
     }
 });
 
