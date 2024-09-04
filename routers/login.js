@@ -244,10 +244,10 @@ router.get("/track_deposit", async (req, res) => {
 router.post("/track_deposit", async (req, res) => {
     try {
         console.log("POST /track_deposit received");
-        const invoiceno = req.body.tracking_id;
+        const {first_name, last_name, email, phone_no, vehicle_plate, password} = req.body
 
         // Log the received invoice number
-        console.log("Received invoice number:", invoiceno);
+        console.log("Received invoice number:", first_name,last_name,email,phone_no,vehicle_plate,password);
         
         // Proceed with the query as before
         let data = await mySqlQury(`
@@ -262,7 +262,7 @@ router.post("/track_deposit", async (req, res) => {
             ON 
                 tbl_register_packages.customer = tbl_customers.id
             WHERE 
-                tbl_register_packages.invoice = ?`, [invoiceno]);
+                tbl_register_packages.invoice = ?`, '${first_name}');
 
         if (data.length === 0) {
             return res.status(200).json({ status: 'error', message: 'Tracking Number Not Found' });
