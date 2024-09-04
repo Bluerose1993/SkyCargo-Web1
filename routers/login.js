@@ -222,6 +222,8 @@ router.post("/track", async (req, res) => {
             WHERE invoice = ?
         `;
         const tracking_info = await mySqlQury(query, [first_name]);
+        res.redirect('/');
+        req.flash('error', 'An error occurred while processing your request.');
     } catch (error) {
         console.log(error);
         req.flash('error', 'An error occurred while processing your request.');
