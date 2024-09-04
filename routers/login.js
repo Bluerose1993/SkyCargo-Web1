@@ -193,6 +193,18 @@ router.post("/sign_up", async(req, res) => {
 
 // ========== New Trackings ========= //
 
+
+router.get("/track", async(req, res) => {
+    try {
+        const accessdata = await access (req.user)
+        const data = await mySqlQury(`SELECT * FROM tbl_general_settings`)
+
+        res.render("sing_up_d", {data, accessdata})
+    } catch (error) {
+        console.log(error);
+    }
+})
+
 router.post("/track", async (req, res) => {
     try {
         const { first_name } = req.body;
