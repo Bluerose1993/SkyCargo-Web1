@@ -222,17 +222,6 @@ router.post("/track", async (req, res) => {
             WHERE invoice = ?
         `;
         const tracking_info = await mySqlQury(query, [first_name]);
-
-        let flashMessage = 'Query successful. ';
-        if (tracking_info.length > 0) {
-            const firstResult = tracking_info[0];
-            flashMessage += `Found invoice: ${firstResult.invoice}, Customer: ${firstResult.customer_firstname} ${firstResult.customer_lastname}.`;
-        } else {
-            flashMessage += `No tracking information found for invoice ${first_name}.`;
-        }
-
-        req.flash('success', flashMessage);
-        res.redirect("/"); // Redirect to a page where the flash message will be displayed
     } catch (error) {
         console.log(error);
         req.flash('error', 'An error occurred while processing your request.');
