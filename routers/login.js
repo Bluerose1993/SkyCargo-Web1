@@ -225,7 +225,7 @@ router.post("/track", async (req, res) => {
     } catch (error) {
         console.log(error);
         req.flash('error', 'An error occurred while processing your request.');
-        res.redirect('/'); // Redirect to an error page or the home page
+        // res.redirect('/'); // Redirect to an error page or the home page
     }
 });
 
