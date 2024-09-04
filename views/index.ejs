@@ -466,11 +466,10 @@
                               <% } %>
                             </td>
                             <td> <% if (data.assign_driver == '5') { %>
-                              <span class="badge badge-warning p-2">Pending <%= data.package_amount %></span>
+                              <span class="badge badge-warning p-2"> <%= data.package_amount %> <%= lang_data.invoice_status %> </span>
                           <% } else { %>
                               <span class="badge badge-success p-2 invosymbol"> <%= data.package_amount %></span>
-                          <% } %>
-                             class="invosymbol2"><%= data.weight %> Kg 
+                          <% } %> 
                           </td>
                             <td>
                               <% if (data.due_amount != '0') { %>
