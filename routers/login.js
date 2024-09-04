@@ -244,7 +244,7 @@ router.get("/track_deposit", async (req, res) => {
 router.post("/track_deposit", async (req, res) => {
     try {
         console.log("POST /track_deposit received");
-        const invoiceno = req.body;
+        const invoiceno = req.body.tracking_id;
 
         // Log the received invoice number
         console.log("Received invoice number:", invoiceno);
