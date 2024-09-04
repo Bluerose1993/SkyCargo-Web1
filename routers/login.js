@@ -208,25 +208,7 @@ router.post("/track", async(req, res) => {
     try {
         const {first_name} = req.body
 
-        const query = `
-    SELECT tbl_register_packages.*, 
-        (SELECT tbl_customers.first_name 
-         FROM tbl_customers 
-         WHERE tbl_register_packages.customer = tbl_customers.id) AS customer_firstname,
-        (SELECT tbl_customers.last_name 
-         FROM tbl_customers 
-         WHERE tbl_register_packages.customer = tbl_customers.id) AS customer_lastname
-    FROM tbl_register_packages 
-    WHERE invoice = ?
-`;
-const results = await mySqlQury(query, [first_name]);
-
-        // const admin_data = await mySqlQury(`SELECT * FROM tbl_admin WHERE email = '${email}'`)
-        // console.log(admin_data);
-
-        // let drivers_data = `INSERT INTO tbl_drivers (first_name, last_name, email, mobile,) VALUE
-        // ('${first_name}', '${last_name}', '${email}', '${phone_no}', '0', '${admin_data[0].id}')`
-        // await mySqlQury(drivers_data)
+        let registered_packages = await mySqlQury(`SELECT SUM(weight) AS registered_packages_total FROM tbl_register_packages WHERE invoice = '${first_name}' AND assign_driver = 6`)
 
         req.flash('success', `Your information will be sent to the administration for approval.!`)
         res.redirect("/")
