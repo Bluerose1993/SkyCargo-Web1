@@ -465,8 +465,12 @@
                                   <span class="badge badge-primary p-2"><%= data.shipping_status %></span>
                               <% } %>
                             </td>
-                            <td 
-                            class="invosymbol2"><%= data.weight %> Kg
+                            <td> <% if (data. != '0') { %>
+                              <span class="badge badge-warning p-2">Pending <%= data.package_amount %></span>
+                          <% } else { %>
+                              <span class="badge badge-success p-2 invosymbol"> <%= data.package_amount %></span>
+                          <% } %>
+                             class="invosymbol2"><%= data.weight %> Kg 
                           </td>
                             <td>
                               <% if (data.due_amount != '0') { %>
