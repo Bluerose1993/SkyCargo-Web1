@@ -544,6 +544,7 @@ router.post("/register_packages", auth, upload.single('image'), async(req, res) 
         let query = `INSERT INTO tbl_tracking_history (invoice, type, office, delivery_status, date, time, message, page) VALUE
         ('WIL${invoice}', 'register_packages', '${office_of_origin}', '1', '${fullDate}', '${newtime}', 'Shipment created', '1')`
         await mySqlQury(query);
+        req.flash('success', `Deposit Accepted into Customers Account`);
         res.redirect("/online_shopping/register_packages");
         
 
