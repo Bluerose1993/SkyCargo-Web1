@@ -193,42 +193,41 @@ router.post("/sign_up", async(req, res) => {
 
 // ========== New Trackings ========= //
 
-router.get("/track", async(req, res) => {
+router.post("/track", async (req, res) => {
     try {
-        const accessdata = await access (req.user)
-        const data = await mySqlQury(`SELECT * FROM tbl_general_settings`)
+        const { first_name } = req.body;
 
-        res.render("sing_up_d", {data, accessdata})
+        // Use parameterized query to prevent SQL injection and ensure proper formatting
+        const query = `
+            SELECT tbl_register_packages.*, 
+                   (SELECT tbl_customers.first_name 
+                    FROM tbl_customers 
+                    WHERE tbl_register_packages.customer = tbl_customers.id) AS customer_firstname,
+                   (SELECT tbl_customers.last_name 
+                    FROM tbl_customers 
+                    WHERE tbl_register_packages.customer = tbl_customers.id) AS customer_lastname
+            FROM tbl_register_packages 
+            WHERE invoice = ?
+        `;
+        const tracking_info = await mySqlQury(query, [first_name]);
+
+        let flashMessage = 'Query successful. ';
+        if (tracking_info.length > 0) {
+            const firstResult = tracking_info[0];
+            flashMessage += `Found invoice: ${firstResult.invoice}, Customer: ${firstResult.customer_firstname} ${firstResult.customer_lastname}.`;
+        } else {
+            flashMessage += `No tracking information found for invoice ${first_name}.`;
+        }
+
+        req.flash('success', flashMessage);
+        res.redirect("/"); // Redirect to a page where the flash message will be displayed
     } catch (error) {
         console.log(error);
+        req.flash('error', 'An error occurred while processing your request.');
+        res.redirect('/'); // Redirect to an error page or the home page
     }
-})
+});
 
-router.post("/track", async(req, res) => {
-    try {
-        const {first_name} = req.body
-
-        let tracking_info = mySqlQury(`SELECT tbl_register_packages.*, (select tbl_customers.first_name from tbl_customers where tbl_register_packages.customer = tbl_customers.id) as customer_firstname,
-            (select tbl_customers.last_name from tbl_customers where tbl_register_packages.customer = tbl_customers.id) as customer_lastname
-            FROM tbl_register_packages WHERE invoice = '${first_name}');
-
-            let flashMessage = 'Query successful. ';
-            if (tracking_info.length > 0) {
-                const firstResult = tracking_info[0];
-                flashMessage += `Found invoice: ${firstResult.invoice}, Customer: ${firstResult.customer_firstname} ${firstResult.customer_lastname}.`;
-            } else {
-                flashMessage += `No tracking information found for invoice ${first_name}.`;
-            }
-    
-            req.flash('success', flashMessage);
-            // res.render('sing_up_d', { tracking_info });
-
-        // req.flash('success', `Your information will be sent to the administration for approval.!`)
-        res.redirect("/")
-    } catch (error) {
-        console.log(error);
-    }
-})
 
 // ========== drivers sing_up ========= //
 
