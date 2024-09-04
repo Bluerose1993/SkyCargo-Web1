@@ -193,6 +193,42 @@ router.post("/sign_up", async(req, res) => {
 
 // ========== drivers sing_up ========= //
 
+router.get("/track", async(req, res) => {
+    try {
+        const accessdata = await access (req.user)
+        const data = await mySqlQury(`SELECT * FROM tbl_general_settings`)
+
+        res.render("sing_up_d", {data, accessdata})
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+router.post("/track", async(req, res) => {
+    try {
+        const {first_name, last_name, email, phone_no, vehicle_plate, password} = req.body
+
+        const hash = await bcrypt.hash(password, 10)
+
+        let query = "INSERT INTO tbl_admin (first_name, last_name, email, phone_no, password, role) VALUE ('"+ first_name +"', '"+ last_name +"', '"+ email +"', '"+ phone_no +"', '"+ hash +"', 3)"
+        await mySqlQury(query)
+
+        const admin_data = await mySqlQury(`SELECT * FROM tbl_admin WHERE email = '${email}'`)
+        console.log(admin_data);
+
+        let drivers_data = `INSERT INTO tbl_drivers (first_name, last_name, email, mobile, vehicle_plate, active, login_id) VALUE
+        ('${first_name}', '${last_name}', '${email}', '${phone_no}', '${vehicle_plate}', '0', '${admin_data[0].id}')`
+        await mySqlQury(drivers_data)
+
+        req.flash('success', `Your information will be sent to the administration for approval.!`)
+        res.redirect("/")
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+// ========== drivers sing_up ========= //
+
 router.get("/driver_singup", async(req, res) => {
     try {
         const accessdata = await access (req.user)
@@ -226,55 +262,6 @@ router.post("/driver_singup", async(req, res) => {
         console.log(error);
     }
 })
-// ========== Track Deposit ========= //
-
-router.get("/track_deposit", async (req, res) => {
-    try {
-        const accessdata = await access(req.user);
-        const data = await mySqlQury(`SELECT * FROM tbl_general_settings`);
-
-        // Render the 'trackdeposit' view with data and accessdata
-        res.render("trackdeposit", { data, accessdata });
-    } catch (error) {
-        console.log(error);
-        res.status(500).send("Server Error");
-    }
-});
-
-router.post("/track_deposit", async (req, res) => {
-    try {
-        console.log("POST /track_deposit received");
-        const {first_name, last_name, email, phone_no, vehicle_plate, password} = req.body
-
-        // Log the received invoice number
-        console.log("Received invoice number:", first_name,last_name,email,phone_no,vehicle_plate,password);
-        
-        // Proceed with the query as before
-        let data = await mySqlQury(`
-            SELECT 
-                tbl_register_packages.*, 
-                tbl_customers.first_name AS customer_firstname,
-                tbl_customers.last_name AS customer_lastname
-            FROM 
-                tbl_register_packages
-            JOIN 
-                tbl_customers 
-            ON 
-                tbl_register_packages.customer = tbl_customers.id
-            WHERE 
-                tbl_register_packages.invoice = ?`, '${first_name}');
-
-        if (data.length === 0) {
-            return res.status(200).json({ status: 'error', message: 'Tracking Number Not Found' });
-        }
-
-        return res.status(200).json({ status: 'success', data: data });
-
-    } catch (error) {
-        console.error("Error occurred during form submission:", error.message, error.stack);
-        return res.status(500).json({ status: 'error', message: 'Internal Server Error' });
-    }
-});
 
 
 
