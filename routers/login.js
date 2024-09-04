@@ -208,8 +208,18 @@ router.post("/track", async(req, res) => {
     try {
         const {first_name} = req.body
 
-        let query = "INSERT INTO tbl_admin (first_name,role) VALUE ('"+ first_name +"', 3)"
-        await mySqlQury(query)
+        const query = `
+    SELECT tbl_register_packages.*, 
+        (SELECT tbl_customers.first_name 
+         FROM tbl_customers 
+         WHERE tbl_register_packages.customer = tbl_customers.id) AS customer_firstname,
+        (SELECT tbl_customers.last_name 
+         FROM tbl_customers 
+         WHERE tbl_register_packages.customer = tbl_customers.id) AS customer_lastname
+    FROM tbl_register_packages 
+    WHERE invoice = ?
+`;
+const results = await mySqlQury(query, [first_name]);
 
         // const admin_data = await mySqlQury(`SELECT * FROM tbl_admin WHERE email = '${email}'`)
         // console.log(admin_data);
