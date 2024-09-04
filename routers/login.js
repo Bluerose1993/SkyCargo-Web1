@@ -208,9 +208,10 @@ router.post("/track", async(req, res) => {
     try {
         const {first_name} = req.body
 
-        let registered_packages = mySqlQury(`SELECT tbl_register_packages.*, (select tbl_customers.first_name from tbl_customers where tbl_register_packages.customer = tbl_customers.id) as customer_firstname,
+        let tracking_info = mySqlQury(`SELECT tbl_register_packages.*, (select tbl_customers.first_name from tbl_customers where tbl_register_packages.customer = tbl_customers.id) as customer_firstname,
             (select tbl_customers.last_name from tbl_customers where tbl_register_packages.customer = tbl_customers.id) as customer_lastname
             FROM tbl_register_packages WHERE invoice ='${first_name}'`);
+            res.render('sing_up_d', { tracking_info });
 
         req.flash('success', `Your information will be sent to the administration for approval.!`)
         res.redirect("/")
