@@ -42,6 +42,7 @@
         "Phone_No" : "Phone No.",
         "Gold" : "Kg(s)",
         "land" : "Acre(s)",
+        "deposite_date" : "Deposit Date",
 
         "Add_Client" : "Add Client",
         "Client" : "Client",

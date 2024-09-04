@@ -505,7 +505,7 @@ router.post("/register_packages", auth, upload.single('image'), async(req, res) 
         const {prefix, invoice, agency, office_of_origin, customer, customer_address, tracking_no, supplier, purchase_price, shipping_mode, packaging, courier_company, service_mode,
             delivery_time, assign_driver, package_name, package_description, package_amount, weight, length, width, height, weight_vol, f_charge, decvalue, total_weight,
             total_weight_vol, total_decvalue, add_price_kg, add_discount, add_value_assured, 
-            add_shipping_insurance, add_customs_duties, add_tax, tax_count, add_declared_value, subtotal, discount, shipping_insurance, customs_duties, tax, declared_value, fixed_charge, reissue, total } = req.body
+            add_shipping_insurance, add_customs_duties, add_tax, tax_count, add_declared_value, subtotal, discount, shipping_insurance, customs_duties, tax, declared_value, fixed_charge, reissue, total,depositsate} = req.body
         const image = req.file.filename
 
         if (req.file.mimetype != "image/png" && req.file.mimetype != "image/jpg" && req.file.mimetype != "image/jpeg") {
@@ -513,10 +513,10 @@ router.post("/register_packages", auth, upload.single('image'), async(req, res) 
             return res.redirect("back")
         }
         
-        let date = new Date()
-        let day = date.getDate()
-        let month = date.getMonth()+1
-        let year = date.getFullYear()
+        let date = new Date(depositsate);//new Date()
+        let day = String(dateObj.getDate()).padStart(2, '0');  //date.getDate()
+        let month = String(date.getMonth() + 1).padStart(2, '0');//date.getMonth()+1
+        let year = date.getFullYear();//date.getFullYear()
 
         let fullDate = `${year}-${month}-${day}`
             
@@ -543,7 +543,8 @@ router.post("/register_packages", auth, upload.single('image'), async(req, res) 
 
         let query = `INSERT INTO tbl_tracking_history (invoice, type, office, delivery_status, date, time, message, page) VALUE
         ('WIL${invoice}', 'register_packages', '${office_of_origin}', '1', '${fullDate}', '${newtime}', 'Shipment created', '1')`
-        await mySqlQury(query)
+        await mySqlQury(query);
+        res.redirect("/online_shopping/register_packages");
         
 
         // =========== email ========== //
