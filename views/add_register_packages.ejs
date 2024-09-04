@@ -190,7 +190,7 @@
                           </div>
                           <div class="col-4">
                             <label class="form-label"><%= lang_data.deposite_date %></label>
-                            <input class="form-control" type="date" name="depositsate" required>
+                            <input class="form-control" type="date" name="depositdate" required>
                         </div>
   
                           <div class="col-4">
@@ -257,7 +257,7 @@
                         <div class="col-4 mt-3">
                           <div class="col-form-label"><!--<%= lang_data.Assign_Driver %>--> Item Type <i class="fa fa-archive font-danger"></i></div>
                             <select class="js-example-basic-single" name="assign_driver" required>
-                              <option value selected disabled>Search Driver</option>
+                              <option value selected disabled>Select Item type</option>
                               <% drivers_list.forEach((data) => { %>
                                 <option value="<%= data.id %>"> <%= data.first_name %> <%= data.last_name %></option>
                               <% }) %>
