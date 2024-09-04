@@ -198,169 +198,95 @@ router.get("/show_image/:id", auth, async(req, res) => {
 // ========== register_packages =============== //
 
 
-router.get("/register_packages", auth, async(req, res) => {
+router.get("/register_packages", auth, async (req, res) => {
     try {
-        const role_data = req.user
-        const lang_data = req.language_data
-        const language_name = req.lang
-        const accessdata = await access (req.user)
-        const notification_data = await mySqlQury(`SELECT * FROM tbl_notification WHERE received = '${role_data.id}' ORDER BY id DESC LIMIT 5`)
-        const register_packages_notification = await mySqlQury(`SELECT * FROM tbl_register_packages`)
-        const shipment_notification = await mySqlQury(`SELECT * FROM tbl_shipment`)
-        const pickup_notification = await mySqlQury(`SELECT * FROM tbl_pickup`)
-        const consolidated_notification = await mySqlQury(`SELECT * FROM tbl_consolidated`)
+        const role_data = req.user;
+        const lang_data = req.language_data;
+        const language_name = req.lang;
         
-        const prefix_data = await mySqlQury(`SELECT * FROM tbl_shipping_prefix WHERE type = '1'`)
-        const agencies_list = await mySqlQury(`SELECT * FROM tbl_agency_group`)
-        const office_group_list = await mySqlQury(`SELECT * FROM tbl_office_group`)
-        const customers_list = await mySqlQury(`SELECT * FROM tbl_customers WHERE customer_active = 1`)
-        const logistics_service_list = await mySqlQury(`SELECT * FROM tbl_logistics_service`)
-        const packaging_list = await mySqlQury("SELECT * FROM tbl_packaging")
-        const courier_companies_list = await mySqlQury(`SELECT * FROM tbl_courier_companies`)
-        const shipping_modes_list = await mySqlQury(`SELECT * FROM tbl_shipping_modes`)
-        const shipping_times_list = await mySqlQury(`SELECT * FROM tbl_shipping_times`)
-        const drivers_list = await mySqlQury(`SELECT * FROM tbl_drivers WHERE active = 1`)
+        const [
+            accessdata,
+            notification_data,
+            register_packages_notification,
+            shipment_notification,
+            pickup_notification,
+            consolidated_notification,
+            prefix_data,
+            agencies_list,
+            office_group_list,
+            customers_list,
+            logistics_service_list,
+            packaging_list,
+            courier_companies_list,
+            shipping_modes_list,
+            shipping_times_list,
+            drivers_list,
+            register_packages,
+            taxe_data
+        ] = await Promise.all([
+            access(req.user),
+            mySqlQury(`SELECT * FROM tbl_notification WHERE received = '${role_data.id}' ORDER BY id DESC LIMIT 5`),
+            mySqlQury(`SELECT * FROM tbl_register_packages`),
+            mySqlQury(`SELECT * FROM tbl_shipment`),
+            mySqlQury(`SELECT * FROM tbl_pickup`),
+            mySqlQury(`SELECT * FROM tbl_consolidated`),
+            mySqlQury(`SELECT * FROM tbl_shipping_prefix WHERE type = '1'`),
+            mySqlQury(`SELECT * FROM tbl_agency_group`),
+            mySqlQury(`SELECT * FROM tbl_office_group`),
+            mySqlQury(`SELECT * FROM tbl_customers WHERE customer_active = 1`),
+            mySqlQury(`SELECT * FROM tbl_logistics_service`),
+            mySqlQury("SELECT * FROM tbl_packaging"),
+            mySqlQury(`SELECT * FROM tbl_courier_companies`),
+            mySqlQury(`SELECT * FROM tbl_shipping_modes`),
+            mySqlQury(`SELECT * FROM tbl_shipping_times`),
+            mySqlQury(`SELECT * FROM tbl_drivers WHERE active = 1`),
+            mySqlQury(`SELECT * FROM tbl_register_packages ORDER BY ID DESC LIMIT 1`),
+            mySqlQury(`SELECT * FROM tbl_taxes`)
+        ]);
 
-        const register_packages = await mySqlQury(`SELECT * FROM tbl_register_packages ORDER BY ID DESC LIMIT 1`)
-
-        const taxe_data = await mySqlQury(`SELECT * FROM tbl_taxes`)
-        console.log(taxe_data);
-
-        let table = 'register_packages'
-
-        if (register_packages == ""){
-            let invoice = '0000' + 1
-    
-            res.render("add_register_packages", {
-                role_data : role_data, lang_data, language_name, notification_data,
-                register_packages_notification, shipment_notification, pickup_notification, consolidated_notification,
-                agencies_list : agencies_list,
-                office_group_list : office_group_list,
-                customers_list : customers_list,
-                logistics_service_list : logistics_service_list,
-                packaging_list : packaging_list,
-                courier_companies_list : courier_companies_list,
-                shipping_modes_list : shipping_modes_list,
-                shipping_times_list : shipping_times_list,
-                drivers_list : drivers_list,
-                invoice, prefix_data,
-                table, taxe_data : taxe_data[0],
-                accessdata,
-            })
+        let invoice;
+        if (!register_packages.length) {
+            invoice = '00001';
         } else {
-
-            if (register_packages[0].id < 100) {
-                let invoice = '0000' + (register_packages[0].id + 1)
-    
-                res.render("add_register_packages", {
-                    role_data : role_data, lang_data, language_name, notification_data,
-                    register_packages_notification, shipment_notification, pickup_notification, consolidated_notification,
-                    agencies_list : agencies_list,
-                    office_group_list : office_group_list,
-                    customers_list : customers_list,
-                    logistics_service_list : logistics_service_list,
-                    packaging_list : packaging_list,
-                    courier_companies_list : courier_companies_list,
-                    shipping_modes_list : shipping_modes_list,
-                    shipping_times_list : shipping_times_list,
-                    drivers_list : drivers_list,
-                    invoice, prefix_data,
-                    table,
-                    taxe_data : taxe_data[0],
-                    accessdata,
-                    
-                })
-            }else if (register_packages[0].id > 100) {
-                let invoice = '000' + (register_packages[0].id + 1)
-                
-                res.render("add_register_packages", {
-                    role_data : role_data, lang_data, language_name, notification_data,
-                    register_packages_notification, shipment_notification, pickup_notification, consolidated_notification,
-                    agencies_list : agencies_list,
-                    office_group_list : office_group_list,
-                    customers_list : customers_list,
-                    logistics_service_list : logistics_service_list,
-                    packaging_list : packaging_list,
-                    courier_companies_list : courier_companies_list,
-                    shipping_modes_list : shipping_modes_list,
-                    shipping_times_list : shipping_times_list,
-                    drivers_list : drivers_list,
-                    invoice, prefix_data,
-                    table,
-                    taxe_data : taxe_data[0],
-                    accessdata,
-                    
-                })
-            }else if (register_packages[0].id > 1000) {
-                let invoice = '00' + (register_packages[0].id + 1)
-                
-                res.render("add_register_packages", {
-                    role_data : role_data, lang_data, language_name, notification_data,
-                    register_packages_notification, shipment_notification, pickup_notification, consolidated_notification,
-                    agencies_list : agencies_list,
-                    office_group_list : office_group_list,
-                    customers_list : customers_list,
-                    logistics_service_list : logistics_service_list,
-                    packaging_list : packaging_list,
-                    courier_companies_list : courier_companies_list,
-                    shipping_modes_list : shipping_modes_list,
-                    shipping_times_list : shipping_times_list,
-                    drivers_list : drivers_list,
-                    invoice, prefix_data,
-                    table,
-                    taxe_data : taxe_data[0],
-                    accessdata,
-                    
-                })
-            } else if (register_packages[0].id > 10000) {
-                let invoice = '0' + (register_packages[0].id + 1)
-                
-                res.render("add_register_packages", {
-                    role_data : role_data, lang_data, language_name, notification_data,
-                    register_packages_notification, shipment_notification, pickup_notification, consolidated_notification,
-                    agencies_list : agencies_list,
-                    office_group_list : office_group_list,
-                    customers_list : customers_list,
-                    logistics_service_list : logistics_service_list,
-                    packaging_list : packaging_list,
-                    courier_companies_list : courier_companies_list,
-                    shipping_modes_list : shipping_modes_list,
-                    shipping_times_list : shipping_times_list,
-                    drivers_list : drivers_list,
-                    invoice, prefix_data,
-                    table,
-                    taxe_data : taxe_data[0],
-                    accessdata,
-                    
-                })
-            }else {
-                let invoice = (register_packages[0].id + 1)
-                
-                res.render("add_register_packages", {
-                    role_data : role_data, lang_data, language_name, notification_data,
-                    register_packages_notification, shipment_notification, pickup_notification, consolidated_notification,
-                    agencies_list : agencies_list,
-                    office_group_list : office_group_list,
-                    customers_list : customers_list,
-                    logistics_service_list : logistics_service_list,
-                    packaging_list : packaging_list,
-                    courier_companies_list : courier_companies_list,
-                    shipping_modes_list : shipping_modes_list,
-                    shipping_times_list : shipping_times_list,
-                    drivers_list : drivers_list,
-                    invoice, prefix_data,
-                    table,
-                    taxe_data : taxe_data[0],
-                    accessdata,
-                    
-                })
-            }
+            const packageId = register_packages[0].id + 1;
+            invoice = packageId < 100 ? `0000${packageId}` :
+                      packageId < 1000 ? `000${packageId}` :
+                      packageId < 10000 ? `00${packageId}` :
+                      packageId < 100000 ? `0${packageId}` :
+                      `${packageId}`;
         }
 
+        res.render("add_register_packages", {
+            role_data,
+            lang_data,
+            language_name,
+            notification_data,
+            register_packages_notification,
+            shipment_notification,
+            pickup_notification,
+            consolidated_notification,
+            agencies_list,
+            office_group_list,
+            customers_list,
+            logistics_service_list,
+            packaging_list,
+            courier_companies_list,
+            shipping_modes_list,
+            shipping_times_list,
+            drivers_list,
+            invoice,
+            prefix_data,
+            table: 'register_packages',
+            taxe_data: taxe_data[0],
+            accessdata
+        });
+
     } catch (error) {
-        console.log(error);
+        console.error("Error in /register_packages route:", error);
+        res.status(500).send("Server Error");
     }
-})
+});
+
 
 router.get("/add_pre_alert_packages/:id", auth, async(req, res) => {
     try {
