@@ -46,7 +46,7 @@
                             let date = new Date(register_packages.date);
 let                         formattedDate = date.toISOString().slice(0, 10);
                             %>
-                            <label class="form-label"><%= lang_data.deposite_date %> <%= register_packages.date %></label>
+                            <label class="form-label"><%= lang_data.deposite_date %></label>
                             <input class="form-control" type="date" name="depositdate" value= "<%= formattedDate %>" required>
                         </div>
                         </div>
