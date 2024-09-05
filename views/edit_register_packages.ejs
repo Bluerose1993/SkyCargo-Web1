@@ -40,9 +40,14 @@
                           <div class="input-group left-radius"><span class="input-group-text font-danger m-r-5" id="inputGroupPrepend"><b> Invoice #</b></span>
                               <input class="form-control" id="" type="text" name="invoice" value="<%= register_packages.invoice %>" readonly>
                           </div>
+                          
                           <div class="col-sm-12">
+                            <%
+                            let date = new Date(register_packages.date);
+let                         formattedDate = date.toISOString().slice(0, 10);
+                            %>
                             <label class="form-label"><%= lang_data.deposite_date %> <%= register_packages.date %></label>
-                            <input class="form-control" type="date" name="depositdate" value= "<%= register_packages.date %>" required>
+                            <input class="form-control" type="date" name="depositdate" value= "<%= formattedDate %>" required>
                         </div>
                         </div>
 
