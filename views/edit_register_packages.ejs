@@ -241,7 +241,7 @@ let                         formattedDate = date.toISOString().slice(0, 10);
                         <% package_name_list.forEach((package_name, x) => { %>
 
                           <div class="row mb-3 package_information">
-                            <input class="form-control form-control-sm" type="hidden" value="<%= register_packages.weight %>" id="hidden_loop_val">
+                            <input class="form-control form-control-sm" type="hidden" value="<%= register_packages.weight %>" id="hidden_loop_val" step="0.01">
                             <div class="col-lg-1 col-md-4 d-flex align-items-start flex-column">
                               <label class="form-label mb-auto" for="validationCustom01" id="json_Package_Name"><%= lang_data.Package_Name %></label>
                               <input class="form-control form-control-sm" type="text" name="package_name" placeholder="Name" value="<%= package_name %>" required>
@@ -259,7 +259,7 @@ let                         formattedDate = date.toISOString().slice(0, 10);
     
                             <div class="col-lg-1 col-md-4 d-flex align-items-start flex-column">
                               <label class="form-label mb-auto" for="validationCustom01" id="json_Weight"><%= lang_data.Weight %></label>
-                              <input class="form-control form-control-sm edit_register_packages_weight" type="number" value="<%= weight_list[x] %>" name="weight" min="0" required>
+                              <input class="form-control form-control-sm edit_register_packages_weight" type="number" value="<%= weight_list[x] %>" name="weight" min="0" step="0.01 required>
                             </div>
     
                             <div class="col-lg-1 col-md-4 d-flex align-items-start flex-column">
