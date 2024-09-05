@@ -1036,7 +1036,26 @@ router.post("/edit_register_packages/:id", auth, upload.single('image'), async(r
         console.log(error);
     }
 })
+// Delete Transaction
+router.get("/online_shopping/delete/:id", auth, async(req, res) => {
+    try {
+     
+        let old_data = await mySqlQury(`SELECT * FROM tbl_customers WHERE id = '${req.params.id}'`)
 
+        let query = `DELETE FROM tbl_customers WHERE id = '${req.params.id}'`
+        await mySqlQury(query)
+
+        let admin_query = `DELETE FROM tbl_admin WHERE email = '${old_data[0].email}'`
+        await mySqlQury(admin_query)
+
+
+        req.flash('success', `Deleted successfully`)
+        res.redirect("/users/customers")
+       
+    } catch (error) {
+        console.log(error);
+    }
+})
 
 
 // ========== shipment_tracking ============ //
@@ -1512,6 +1531,22 @@ router.get("/print_shipment/:id", auth, async(req, res) => {
 })
 
 router.get("/print_label/:id", auth, async(req, res) => {
+        try {
+       
+            const old_data = await mySqlQury(`SELECT * FROM tbl_register_packages WHERE id = '${req.params.id}'`)
+    
+            let query = `DELETE FROM tbl_register_packages WHERE id = '${req.params.id}'`
+            await mySqlQury(query)
+    
+            req.flash('success', `Deleted successfully`)
+            res.redirect("/online_shopping/list_of_packages")
+           
+        } catch (error) {
+            console.log(error);
+        }
+    })
+
+/*router.get("/print_label/:id", auth, async(req, res) => {
     try {
         const role_data = req.user
         const lang_data = req.language_data
@@ -1585,7 +1620,7 @@ router.get("/print_label/:id", auth, async(req, res) => {
     } catch (error) {
         console.log(error);
     }
-})
+})*/
 
 
 module.exports = router;
