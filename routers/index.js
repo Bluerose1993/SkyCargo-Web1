@@ -31,8 +31,7 @@ router.get("/", auth, async(req, res) => {
             let registered_packages = await mySqlQury(`SELECT SUM(weight) AS registered_packages_total FROM tbl_register_packages WHERE assign_driver = 6`)
             let shipments = await mySqlQury(`SELECT SUM(weight) AS shipments_total FROM tbl_register_packages WHERE assign_driver = 5`)
             let pickups = await mySqlQury(`SELECT SUM(total) AS pickups_total FROM tbl_pickup`)
-            let consolidated = await mySqlQury(`SELECT SUM(total) AS consolidated_total FROM tbl_consolidated`)
-    
+            let consolidated = await mySqlQury(`SELECT SUM(package_amount) AS consolidated_total FROM tbl_register_packages`)
             let packages_total = registered_packages[0].registered_packages_total
             let shipments_total = shipments[0].shipments_total
             let pickups_total = pickups[0].pickups_total
