@@ -980,12 +980,12 @@ router.post("/edit_register_packages/:id", auth, upload.single('image'), async(r
         const {agency, office_of_origin, customer, customer_address, tracking_no, supplier, purchase_price, shipping_mode, packaging, courier_company, service_mode,
             delivery_time, status_name, hidden_image, package_name, package_description, package_amount, weight, length, width, height, weight_vol, f_charge, decvalue,
             total_weight, total_weight_vol, total_decvalue, add_price_kg, add_discount, add_value_assured, add_shipping_insurance, add_customs_duties, add_tax, tax_count, add_declared_value, subtotal, discount, shipping_insurance,
-            customs_duties, tax, declared_value, fixed_charge, reissue, total} = req.body
+            customs_duties, tax, declared_value, fixed_charge, reissue, total,depositdate} = req.body
 
-            let date = new Date()
-            let day = date.getDate()
-            let month = date.getMonth()+1
-            let year = date.getFullYear()
+            let date = new Date(depositdate);//new Date()
+            let day = String(date.getDate()).padStart(2, '0');  //date.getDate()
+            let month = String(date.getMonth() + 1).padStart(2, '0'); //date.getMonth()+1
+            let year = date.getFullYear(); //date.getFullYear()
             let fullDate = `${year}-${month}-${day}`
 
             const register_packages = await mySqlQury(`SELECT * FROM tbl_register_packages WHERE id = '${req.params.id}'`)
