@@ -66,7 +66,7 @@
 
                 '<div class="col-lg-1 col-md-4 d-flex align-items-start flex-column">'+
                   '<label class="form-label mb-auto" for="validationCustom01">'+ $("#json_Weight").text() +'</label>'+
-                  '<input class="form-control form-control-sm register_packages_weight" type="number" name="weight" value="0" min="0" step="">'+
+                  '<input class="form-control form-control-sm register_packages_weight" type="number" name="weight" value="0" min="0" step="0.01">'+
                 '</div>'+
 
                 '<div class="col-lg-1 col-md-4 d-flex align-items-start flex-column">'+
