@@ -82,15 +82,21 @@
                                                             <span class="badge badge-primary p-2"><%= data.shipping_status %></span>
                                                         <% } %>
                                                     </td>
-                                                    <td class="text-nowrap"><%= data.driver_firstname %> <%= data.driver_lastname %></td>
-                                                    <td class="invosymbol text-nowrap"><%= data.total %></td>
+                                                    <td class="text-nowrap"><%= data.driver_firstname %></td>
+                                                    <td 
+                                                    <% if (data.assign_driver == '5') { %>
+                                                        <span class="badge badge-success p-2"> <%= data.weight %> <%= lang_data.land %> </span>
+                                                    <% } else { %>
+                                                        <span class="badge badge-warning p-2 invosymbol1"> <%= data.weight %> <%= lang_data.Gold %></span>
+                                                    <% } %> 
+                                                </td>
                                                     <td class="text-nowrap">
                                                         <% if (role_data.role == '1') { %>
 
                                                             <% if (data.due_amount != '0') { %>
-                                                                <span class="badge badge-warning p-2">Pending</span>
+                                                                <span class="badge badge-warning p-2 invosymbol"><%= data.package_amount %></span>
                                                             <% } else { %>
-                                                                <span class="badge badge-success p-2">Paid</span>
+                                                                <span class="badge badge-success p-2 invosymbol"><%= data.package_amount %></span>
                                                             <% } %>
 
                                                         <% } else { %>
