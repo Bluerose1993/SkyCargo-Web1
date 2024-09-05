@@ -61,7 +61,7 @@
 
                 '<div class="col-lg-1 col-md-4 d-flex align-items-start flex-column">'+
                   '<label class="form-label mb-auto" for="validationCustom01">'+ $("#json_Amount").text() +'</label>'+
-                  '<input class="form-control form-control-sm" type="number" name="package_amount" placeholder="Amount">'+
+                  '<input class="form-control form-control-sm" type="number" name="package_amount" placeholder="Amount" step="0.01">'+
                 '</div>'+
 
                 '<div class="col-lg-1 col-md-4 d-flex align-items-start flex-column">'+
