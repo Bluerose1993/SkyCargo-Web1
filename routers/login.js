@@ -286,7 +286,7 @@ router.get("/tracking", async(req, res) => {
     }
 })
 
-router.post("/tracking/ajax", async(req, res) => {
+router.post("/tracking2/ajax", async(req, res) => {
     try {
         const {invoice_no, shipment_type} = req.body
 
