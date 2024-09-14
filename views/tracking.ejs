@@ -362,51 +362,6 @@
                     </div>
                 </div>
             </div>
-            <div class="container">
-              <h1>Tracking Information</h1>
-              
-              <% if (status === 'error') { %>
-                  <div class="alert alert-danger">
-                      <strong>Error:</strong> <%= message %>
-                  </div>
-              <% } else { %>
-                  <h2>Customer Information</h2>
-                  <p><strong>First Name:</strong> <%= data[0].customer_firstname %></p>
-                  <p><strong>Last Name:</strong> <%= data[0].customer_lastname %></p>
-                  <p><strong>Country:</strong> <%= country ? country.join(', ') : 'N/A' %></p>
-                  <p><strong>City:</strong> <%= city ? city.join(', ') : 'N/A' %></p>
-                  <p><strong>Address:</strong> <%= address ? address.join(', ') : 'N/A' %></p>
-      
-                  <h2>Tracking Details</h2>
-                  <p><strong>Invoice Number:</strong> <%= data[0].invoice %></p>
-                  <p><strong>Shipment Type:</strong> <%= shipment_type %></p>
-      
-                  <h2>Tracking History</h2>
-                  <table class="table table-bordered">
-                      <thead>
-                          <tr>
-                              <th>Date</th>
-                              <th>Location</th>
-                              <th>Status</th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                          <% tracking_data.forEach(function(track) { %>
-                              <tr>
-                                  <td><%= track.date %></td>
-                                  <td><%= track.countries_name %></td>
-                                  <td><%= track.status_name %></td>
-                              </tr>
-                          <% }) %>
-                      </tbody>
-                  </table>
-      
-                  <h2>Additional Data</h2>
-                  <p><strong>Country List:</strong> <%= countries_list.map(country => country.countries_name).join(', ') %></p>
-                  <p><strong>City List:</strong> <%= city_list.map(city => city.city_name).join(', ') %></p>
-              <% } %>
-          </div>
-      
         </div>
         <%- include('./partials/script'); -%>
     </div>
