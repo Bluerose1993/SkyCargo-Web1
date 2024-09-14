@@ -286,162 +286,99 @@ router.get("/tracking", async(req, res) => {
     }
 })
 
-router.post("/tracking/ajax", async(req, res) => {
+router.post("/tracking/ajax", async (req, res) => {
     try {
-        const {invoice_no, shipment_type} = req.body
+        const { invoice_no, shipment_type } = req.body;
+        let data, tracking_data, edit_data, country, city, address, countries_list, city_list;
 
+        // Perform the appropriate query based on the shipment_type
         if (shipment_type == '1') {
-            let data = await mySqlQury(`SELECT tbl_register_packages.*, (select tbl_customers.first_name from tbl_customers where tbl_register_packages.customer = tbl_customers.id) as customer_firstname,
-                                                                        (select tbl_customers.last_name from tbl_customers where tbl_register_packages.customer = tbl_customers.id) as customer_lastname
-                                                                        FROM tbl_register_packages WHERE invoice ='${invoice_no}'`)
+            data = await mySqlQury(`SELECT tbl_register_packages.*, 
+                                    (SELECT tbl_customers.first_name FROM tbl_customers WHERE tbl_register_packages.customer = tbl_customers.id) AS customer_firstname, 
+                                    (SELECT tbl_customers.last_name FROM tbl_customers WHERE tbl_register_packages.customer = tbl_customers.id) AS customer_lastname 
+                                    FROM tbl_register_packages WHERE invoice ='${invoice_no}'`);
 
-            if (data == "") {
-                return  res.status(200).json({status:'error', message:'Tracking Number Not Found'}) 
-            }
-            
-            const edit_data = await mySqlQury(`SELECT * FROM tbl_customers WHERE id = '${data[0].customer}'`)
-            const country = edit_data[0].customers_country.split(',');
-            const city = edit_data[0].customers_city.split(',');
-            const address = edit_data[0].customers_address.split(',');
-            
-            const countries_list = await mySqlQury("SELECT * FROM tbl_countries")
-            const city_list = await mySqlQury("SELECT * FROM tbl_city")
-            
-            const tracking_data = await mySqlQury(`SELECT tbl_tracking_history.*, (select tbl_countries.countries_name from tbl_countries where tbl_tracking_history.location = tbl_countries.id) as countries_name,
-                                                                                (select tbl_shipping_status.status_name from tbl_shipping_status where tbl_tracking_history.delivery_status = tbl_shipping_status.id) as status_name
-                                                                                FROM tbl_tracking_history WHERE invoice = '${invoice_no}'`)
-
-            if (shipment_type == '1') {
-                
-                res.status(200).json({data, country, city, address, countries_list, city_list, tracking_data})
-            } else {
-                        
-                const edit_client_data = await mySqlQury(`SELECT * FROM tbl_client WHERE id = '${data[0].client}'`)
-                const client_country = edit_client_data[0].country.split(',');
-                const client_city = edit_client_data[0].city.split(',');
-                const client_address = edit_client_data[0].address.split(',');
-                
-                res.status(200).json({data, country, city, address, tracking_data, client_country, client_city, client_address, countries_list, city_list})
+            if (!data.length) {
+                return res.status(200).json({ status: 'error', message: 'Tracking Number Not Found' });
             }
 
-        } else if (shipment_type == '2') {
-            let data = await mySqlQury(`SELECT tbl_shipment.*, (select tbl_customers.first_name from tbl_customers where tbl_shipment.customer = tbl_customers.id) as customer_firstname,
-                                                                (select tbl_customers.last_name from tbl_customers where tbl_shipment.customer = tbl_customers.id) as customer_lastname,
-                                                                (select tbl_client.first_name from tbl_client where tbl_shipment.client = tbl_client.id) as client_firstname,
-                                                                (select tbl_client.last_name from tbl_client where tbl_shipment.client = tbl_client.id) as client_lastname
-                                                                FROM tbl_shipment WHERE invoice ='${invoice_no}'`)
-            
-            if (data == "") {
-                return  res.status(200).json({status:'error', message:'Tracking Number Not Found'}) 
-            }
-            
-            const edit_data = await mySqlQury(`SELECT * FROM tbl_customers WHERE id = '${data[0].customer}'`)
-            const country = edit_data[0].customers_country.split(',');
-            const city = edit_data[0].customers_city.split(',');
-            const address = edit_data[0].customers_address.split(',');
-            
-            const countries_list = await mySqlQury("SELECT * FROM tbl_countries")
-            const city_list = await mySqlQury("SELECT * FROM tbl_city")
-            
-            const tracking_data = await mySqlQury(`SELECT tbl_tracking_history.*, (select tbl_countries.countries_name from tbl_countries where tbl_tracking_history.location = tbl_countries.id) as countries_name,
-                                                                                (select tbl_shipping_status.status_name from tbl_shipping_status where tbl_tracking_history.delivery_status = tbl_shipping_status.id) as status_name
-                                                                                FROM tbl_tracking_history WHERE invoice = '${invoice_no}'`)
-            
-            if (shipment_type == '1') {
-                
-                res.status(200).json({data, country, city, address, countries_list, city_list, tracking_data})
-            } else {
-                        
-                const edit_client_data = await mySqlQury(`SELECT * FROM tbl_client WHERE id = '${data[0].client}'`)
-                const client_country = edit_client_data[0].country.split(',');
-                const client_city = edit_client_data[0].city.split(',');
-                const client_address = edit_client_data[0].address.split(',');
-                
-                res.status(200).json({data, country, city, address, tracking_data, client_country, client_city, client_address, countries_list, city_list})
+            edit_data = await mySqlQury(`SELECT * FROM tbl_customers WHERE id = '${data[0].customer}'`);
+        } 
+        else if (shipment_type == '2') {
+            data = await mySqlQury(`SELECT tbl_shipment.*, 
+                                    (SELECT tbl_customers.first_name FROM tbl_customers WHERE tbl_shipment.customer = tbl_customers.id) AS customer_firstname, 
+                                    (SELECT tbl_customers.last_name FROM tbl_customers WHERE tbl_shipment.customer = tbl_customers.id) AS customer_lastname, 
+                                    (SELECT tbl_client.first_name FROM tbl_client WHERE tbl_shipment.client = tbl_client.id) AS client_firstname, 
+                                    (SELECT tbl_client.last_name FROM tbl_client WHERE tbl_shipment.client = tbl_client.id) AS client_lastname 
+                                    FROM tbl_shipment WHERE invoice ='${invoice_no}'`);
+
+            if (!data.length) {
+                return res.status(200).json({ status: 'error', message: 'Tracking Number Not Found' });
             }
 
-        } else if (shipment_type == '3') {
-            let data = await mySqlQury(`SELECT tbl_pickup.*, (select tbl_customers.first_name from tbl_customers where tbl_pickup.customer = tbl_customers.id) as customer_firstname,
-                                                            (select tbl_customers.last_name from tbl_customers where tbl_pickup.customer = tbl_customers.id) as customer_lastname,
-                                                            (select tbl_client.first_name from tbl_client where tbl_pickup.client = tbl_client.id) as client_firstname,
-                                                            (select tbl_client.last_name from tbl_client where tbl_pickup.client = tbl_client.id) as client_lastname
-                                                            FROM tbl_pickup WHERE invoice ='${invoice_no}'`)
+            edit_data = await mySqlQury(`SELECT * FROM tbl_customers WHERE id = '${data[0].customer}'`);
+        } 
+        else if (shipment_type == '3') {
+            data = await mySqlQury(`SELECT tbl_pickup.*, 
+                                    (SELECT tbl_customers.first_name FROM tbl_customers WHERE tbl_pickup.customer = tbl_customers.id) AS customer_firstname, 
+                                    (SELECT tbl_customers.last_name FROM tbl_customers WHERE tbl_pickup.customer = tbl_customers.id) AS customer_lastname, 
+                                    (SELECT tbl_client.first_name FROM tbl_client WHERE tbl_pickup.client = tbl_client.id) AS client_firstname, 
+                                    (SELECT tbl_client.last_name FROM tbl_client WHERE tbl_pickup.client = tbl_client.id) AS client_lastname 
+                                    FROM tbl_pickup WHERE invoice ='${invoice_no}'`);
 
-                                                            
-            if (data == "") {
-                return  res.status(200).json({status:'error', message:'Tracking Number Not Found'}) 
-            }
-            
-            const edit_data = await mySqlQury(`SELECT * FROM tbl_customers WHERE id = '${data[0].customer}'`)
-            const country = edit_data[0].customers_country.split(',');
-            const city = edit_data[0].customers_city.split(',');
-            const address = edit_data[0].customers_address.split(',');
-            
-            const countries_list = await mySqlQury("SELECT * FROM tbl_countries")
-            const city_list = await mySqlQury("SELECT * FROM tbl_city")
-            
-            const tracking_data = await mySqlQury(`SELECT tbl_tracking_history.*, (select tbl_countries.countries_name from tbl_countries where tbl_tracking_history.location = tbl_countries.id) as countries_name,
-                                                                                (select tbl_shipping_status.status_name from tbl_shipping_status where tbl_tracking_history.delivery_status = tbl_shipping_status.id) as status_name
-                                                                                FROM tbl_tracking_history WHERE invoice = '${invoice_no}'`)
-
-            if (shipment_type == '1') {
-                
-                res.status(200).json({data, country, city, address, countries_list, city_list, tracking_data})
-            } else {
-                        
-                const edit_client_data = await mySqlQury(`SELECT * FROM tbl_client WHERE id = '${data[0].client}'`)
-                const client_country = edit_client_data[0].country.split(',');
-                const client_city = edit_client_data[0].city.split(',');
-                const client_address = edit_client_data[0].address.split(',');
-                
-                res.status(200).json({data, country, city, address, tracking_data, client_country, client_city, client_address, countries_list, city_list})
+            if (!data.length) {
+                return res.status(200).json({ status: 'error', message: 'Tracking Number Not Found' });
             }
 
-        } else if (shipment_type == '4') {
-            let data = await mySqlQury(`SELECT tbl_consolidated.*, (select tbl_customers.first_name from tbl_customers where tbl_consolidated.customer = tbl_customers.id) as customer_firstname,
-                                                                    (select tbl_customers.last_name from tbl_customers where tbl_consolidated.customer = tbl_customers.id) as customer_lastname,
-                                                                    (select tbl_client.first_name from tbl_client where tbl_consolidated.client = tbl_client.id) as client_firstname,
-                                                                    (select tbl_client.last_name from tbl_client where tbl_consolidated.client = tbl_client.id) as client_lastname
-                                                                    FROM tbl_consolidated WHERE invoice ='${invoice_no}'`)
+            edit_data = await mySqlQury(`SELECT * FROM tbl_customers WHERE id = '${data[0].customer}'`);
+        } 
+        else if (shipment_type == '4') {
+            data = await mySqlQury(`SELECT tbl_consolidated.*, 
+                                    (SELECT tbl_customers.first_name FROM tbl_customers WHERE tbl_consolidated.customer = tbl_customers.id) AS customer_firstname, 
+                                    (SELECT tbl_customers.last_name FROM tbl_customers WHERE tbl_consolidated.customer = tbl_customers.id) AS customer_lastname, 
+                                    (SELECT tbl_client.first_name FROM tbl_client WHERE tbl_consolidated.client = tbl_client.id) AS client_firstname, 
+                                    (SELECT tbl_client.last_name FROM tbl_client WHERE tbl_consolidated.client = tbl_client.id) AS client_lastname 
+                                    FROM tbl_consolidated WHERE invoice ='${invoice_no}'`);
 
-                                                                    
-            if (data == "") {
-                return  res.status(200).json({status:'error', message:'Tracking Number Not Found'}) 
-            }
-            
-            const edit_data = await mySqlQury(`SELECT * FROM tbl_customers WHERE id = '${data[0].customer}'`)
-            const country = edit_data[0].customers_country.split(',');
-            const city = edit_data[0].customers_city.split(',');
-            const address = edit_data[0].customers_address.split(',');
-            
-            const countries_list = await mySqlQury("SELECT * FROM tbl_countries")
-            const city_list = await mySqlQury("SELECT * FROM tbl_city")
-            
-            const tracking_data = await mySqlQury(`SELECT tbl_tracking_history.*, (select tbl_countries.countries_name from tbl_countries where tbl_tracking_history.location = tbl_countries.id) as countries_name,
-                                                                                (select tbl_shipping_status.status_name from tbl_shipping_status where tbl_tracking_history.delivery_status = tbl_shipping_status.id) as status_name
-                                                                                FROM tbl_tracking_history WHERE invoice = '${invoice_no}'`)
-
-            if (shipment_type == '1') {
-                
-                res.status(200).json({data, country, city, address, countries_list, city_list, tracking_data})
-            } else {
-                        
-                const edit_client_data = await mySqlQury(`SELECT * FROM tbl_client WHERE id = '${data[0].client}'`)
-                const client_country = edit_client_data[0].country.split(',');
-                const client_city = edit_client_data[0].city.split(',');
-                const client_address = edit_client_data[0].address.split(',');
-                
-                res.status(200).json({data, country, city, address, tracking_data, client_country, client_city, client_address, countries_list, city_list})
+            if (!data.length) {
+                return res.status(200).json({ status: 'error', message: 'Tracking Number Not Found' });
             }
 
+            edit_data = await mySqlQury(`SELECT * FROM tbl_customers WHERE id = '${data[0].customer}'`);
         }
 
-        
-        
+        // Handle case when `edit_data` is found
+        if (edit_data && edit_data.length > 0) {
+            country = edit_data[0].customers_country.split(',');
+            city = edit_data[0].customers_city.split(',');
+            address = edit_data[0].customers_address.split(',');
+        }
+
+        // Common data fetching for all types
+        countries_list = await mySqlQury("SELECT * FROM tbl_countries");
+        city_list = await mySqlQury("SELECT * FROM tbl_city");
+
+        tracking_data = await mySqlQury(`SELECT tbl_tracking_history.*, 
+                                        (SELECT tbl_countries.countries_name FROM tbl_countries WHERE tbl_tracking_history.location = tbl_countries.id) AS countries_name, 
+                                        (SELECT tbl_shipping_status.status_name FROM tbl_shipping_status WHERE tbl_tracking_history.delivery_status = tbl_shipping_status.id) AS status_name 
+                                        FROM tbl_tracking_history WHERE invoice = '${invoice_no}'`);
+
+        res.status(200).json({ 
+            status: 'success', 
+            data, 
+            country, 
+            city, 
+            address, 
+            countries_list, 
+            city_list, 
+            tracking_data 
+        });
+
     } catch (error) {
-        console.log(error);
+        console.error("Error fetching tracking data:", error);
+        res.status(500).json({ status: 'error', message: 'Internal server error', error: error.message });
     }
-})
+});
 
 
 module.exports = router;
