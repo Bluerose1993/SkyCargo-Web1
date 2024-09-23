@@ -299,7 +299,7 @@ router.post("/tracking/ajax", async (req, res) => {
                                     FROM tbl_register_packages WHERE invoice ='${invoice_no}'`);
 
             if (!data.length) {
-                return res.status(200).json({ status: 'error', message: 'Tracking Number Not Found Kindly Check if your ID is correct' });
+                return res.status(200).json({ status: 'error', message: 'Tracking Number Not Found Kindly Check if your ID is correct or you have selected the right package type' });
             }
 
             edit_data = await mySqlQury(`SELECT * FROM tbl_customers WHERE id = '${data[0].customer}'`);
@@ -313,7 +313,7 @@ router.post("/tracking/ajax", async (req, res) => {
                                     FROM tbl_shipment WHERE invoice ='${invoice_no}'`);
 
             if (!data.length) {
-                return res.status(200).json({ status: 'error', message: 'Tracking Number Not Found' });
+                return res.status(200).json({ status: 'error', message: 'Tracking Number Not Found Kindly Check if your ID is correct or you have selected the right package type' });
             }
 
             edit_data = await mySqlQury(`SELECT * FROM tbl_customers WHERE id = '${data[0].customer}'`);
@@ -327,7 +327,7 @@ router.post("/tracking/ajax", async (req, res) => {
                                     FROM tbl_pickup WHERE invoice ='${invoice_no}'`);
 
             if (!data.length) {
-                return res.status(200).json({ status: 'error', message: 'Tracking Number Not Found' });
+                return res.status(200).json({ status: 'error', message: 'Tracking Number Not Found Kindly Check if your ID is correct or you have selected the right package type' });
             }
 
             edit_data = await mySqlQury(`SELECT * FROM tbl_customers WHERE id = '${data[0].customer}'`);
@@ -341,7 +341,7 @@ router.post("/tracking/ajax", async (req, res) => {
                                     FROM tbl_consolidated WHERE invoice ='${invoice_no}'`);
 
             if (!data.length) {
-                return res.status(200).json({ status: 'error', message: 'Tracking Number Not Found' });
+                return res.status(200).json({ status: 'error', message: 'Tracking Number Not Found Kindly Check if your ID is correct or you have selected the right package type' });
             }
 
             edit_data = await mySqlQury(`SELECT * FROM tbl_customers WHERE id = '${data[0].customer}'`);
