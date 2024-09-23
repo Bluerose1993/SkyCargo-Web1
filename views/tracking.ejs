@@ -75,13 +75,54 @@
                                     </div>
     
                                     <div class="col-12">
-                                        <button class="btn btn-square btn-primary mt-4 pt-3 b-r-7 w-100 text-nowrap" type="submit" id="track_shipment">Track shipment</button>
+                                        <!-- <button class="btn btn-square btn-primary mt-4 pt-3 b-r-7 w-100 text-nowrap" type="submit" id="track_shipment">Track shipment</button> -->
+                                        <button class="btn btn-square btn-primary mt-4 pt-3 b-r-7 w-100 text-nowrap" type="submit" id="change_track_shipment">Track shipment</button>
                                     </div>
                                     <a href="/" class="p-3 text-center">Back to home</a>
                                 </div>
                             </div>
                         </div>
 
+                        <div class="card"> 
+                          <div class="card-header pb-0">
+                            <h4>Demo Shipment Tracking</h4>
+                          </div>
+                          <div class="card-body">
+                            <div class="table-responsive theme-scrollbar">
+                              <table class="table" aria-label="table">
+                                  <thead>
+                                    <tr>
+                                      <th scope="col">Shipment Type</th>
+                                      <th scope="col">Tracking Id</th>
+                                      <th scope="col">Action</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr>
+                                      <th scope="row">Register Packages</th>
+                                      <td>WIL000010</td>
+                                      <td><button class="btn btn-primary btn-square px-4 b-r-10 track_data" data-type="1" data-invoice="WIL000010">Track</button></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row">Shipment</th>
+                                      <td>AWB000015</td>
+                                      <td><button class="btn btn-primary btn-square px-4 b-r-10 track_data" data-type="2" data-invoice="AWB000015">Track</button></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row">Pickup</th>
+                                      <td>ABC00003</td>
+                                      <td><button class="btn btn-primary btn-square px-4 b-r-10 track_data" data-type="3" data-invoice="ABC00003">Track</button></td>
+                                    </tr>
+                                    <tr>
+                                      <th scope="row">Consolidated</th>
+                                      <td>COEE00001</td>
+                                      <td><button class="btn btn-primary btn-square px-4 b-r-10 track_data" data-type="4" data-invoice="COEE00001">Track</button></td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                          </div>
+                        </div>
 
                         <div class="row">
 
@@ -262,7 +303,7 @@
                                         </h2>
                                         <div>
                                           <span class="f-16 mb-2">Origin Country</span>
-                                          <h5 class="f-16" id="origin_country">Surat</h5>
+                                          <h5 class="f-16" id="poi_origin_country">Surat</h5>
                                         </div>
                                       </div>
                   
@@ -274,7 +315,7 @@
                                         </h2>
                                         <div>
                                           <span class="f-16 mb-2">Contact Name</span>
-                                          <h5 class="f-16" id="customer_name">Vivek Patel</h5>
+                                          <h5 class="f-16" id="poi_customer_name">Vivek Patel</h5>
                                         </div>
                                       </div>
                                     
@@ -286,7 +327,7 @@
                                         </h2>
                                         <div>
                                           <span class="f-16 mb-2">Date of shipment</span>
-                                          <h5 class="f-16" id="date_of_shipment">2023-04-16</h5>
+                                          <h5 class="f-16" id="poi_date_of_shipment">2023-04-16</h5>
                                         </div>
                                       </div>
                   
@@ -302,7 +343,7 @@
                                         </h2>
                                         <div>
                                           <span class="f-16 mb-2">Origin City</span>
-                                          <h5 class="f-16" id="origin_city">Rajkot</h5>
+                                          <h5 class="f-16" id="poi_origin_city">Rajkot</h5>
                                         </div>
                                       </div>
                                       
@@ -314,7 +355,7 @@
                                         </h2>
                                         <div>
                                           <span class="f-16 mb-2">Contact Address</span>
-                                          <h5 class="f-16" id="customer_address">safdshdthyhjfgfdf</h5>
+                                          <h5 class="f-16" id="poi_customer_address">safdshdthyhjfgfdf</h5>
                                         </div>
                                       </div>
                   
@@ -326,7 +367,7 @@
                                         </h2>
                                         <div>
                                           <span class="f-16 mb-2">Total weight</span>
-                                          <h5 class="f-16" id="total_weight">12.05</h5>
+                                          <h5 class="f-16" id="poi_total_weight">12.05</h5>
                                         </div>
                                       </div>
                   

@@ -13,3 +13,113 @@
 
 
 <%- scriptFile %>
+<script> 
+$(document).ready(function() {
+  $(document).on("click", "#change_track_shipment", function() {
+    var invoice_no = $("#invoice_no").val()
+    var shipment_type = $("#shipment_type").val()
+    if (invoice_no == "" && shipment_type == null) {
+      $("#invoice_no_error").text("Enter Invoice Number")
+      $("#shipment_type_error").text("Select Shipment Type")
+    } else if (invoice_no == "") {
+      $("#invoice_no_error").text("Enter Invoice Number")
+      $("#shipment_type_error").text("")
+    } else if (shipment_type == null) {
+      $("#shipment_type_error").text("Select Shipment Type")
+      $("#invoice_no_error").text("")
+    } else {
+      $("#invoice_no_error").text("")
+      $("#shipment_type_error").text("")
+      $("#history_table").text("")
+      var base_url = window.location.origin;
+      $.ajax({
+        url: base_url + "/tracking/ajax",
+        type: "POST",
+        dataType: "JSON",
+        data: {
+          invoice_no,
+          shipment_type
+        },
+        success: function(res) {
+          if (res.status === "error") {
+            return toastr.error(res.message)
+          }
+          if (shipment_type == '1') {
+            // alert(res.data[0].customer_firstname)
+            $("#qwe").addClass("d-none")
+            $("#poi").removeClass("d-none")
+            $("#mnb").removeClass("d-none")
+            $("#tracking_page").css("height", "100%")
+            $("#poi_customer_name").text(res.data[0].customer_firstname + ' ' + res.data[0].customer_lastname)
+            let date = new Date(res.data[0].date).toISOString().split("T")
+            $("#poi_date_of_shipment").text(date[0])
+            $("#poi_total_weight").text(res.data[0].total_weight)
+            $("#client_name").text(res.data[0].client_firstname + ' ' + res.data[0].client_lastname)
+            res.address.forEach((address, x) => {
+              if (address == res.data[0].customer_address) {
+                $("#poi_customer_address").text(address)
+                res.countries_list.forEach((countries_list) => {
+                  if (countries_list.id == res.country[x]) {
+                    $("#poi_origin_country").text(countries_list.countries_name)
+                  }
+                })
+                res.city_list.forEach((city_list) => {
+                  if (city_list.id == res.city[x]) {
+                    $("#poi_origin_city").text(city_list.city_name)
+                  }
+                })
+              }
+            })
+            $.each(res.tracking_data, function(index, value) {
+              $("#history_table").append('<div class="activity-line line-dot"></div>' + '<div class="d-flex">' + '<div class="activity-dot-primary"></div>' + '<div class="flex-grow-1"><span class="f-w-600 d-block">' + value.status_name + '</span>' + '<p class="mb-0">' + value.date + '</p>' + '</div>' + '</div>')
+            })
+          } else {
+            $("#poi").addClass("d-none")
+            $("#qwe").removeClass("d-none")
+            $("#mnb").removeClass("d-none")
+            $("#tracking_page").css("height", "100%")
+            $("#customer_name").text(res.data[0].customer_firstname + ' ' + res.data[0].customer_lastname)
+            let date = new Date(res.data[0].date).toISOString().split("T")
+            $("#date_of_shipment").text(date[0])
+            $("#total_weight").text(res.data[0].total_weight)
+            $("#client_name").text(res.data[0].client_firstname + ' ' + res.data[0].client_lastname)
+            res.address.forEach((address, x) => {
+              if (address == res.data[0].customer_address) {
+                $("#customer_address").text(address)
+                res.countries_list.forEach((countries_list) => {
+                  if (countries_list.id == res.country[x]) {
+                    $("#origin_country").text(countries_list.countries_name)
+                  }
+                })
+                res.city_list.forEach((city_list) => {
+                  if (city_list.id == res.city[x]) {
+                    $("#origin_city").text(city_list.city_name)
+                  }
+                })
+              }
+            })
+            $.each(res.tracking_data, function(index, value) {
+              $("#history_table").append('<div class="activity-line line-dot"></div>' + '<div class="d-flex">' + '<div class="activity-dot-primary"></div>' + '<div class="flex-grow-1"><span class="f-w-600 d-block">' + value.status_name + '</span>' + '<p class="mb-0">' + value.date + '</p>' + '</div>' + '</div>')
+            })
+            res.client_address.forEach((address, x) => {
+              if (address == res.data[0].client_address) {
+                $("#destination_address").text(address)
+                res.countries_list.forEach((countries_list) => {
+                  if (countries_list.id == res.client_country[x]) {
+                    $("#destination_country").text(countries_list.countries_name)
+                  }
+                })
+                res.city_list.forEach((city_list) => {
+                  if (city_list.id == res.client_city[x]) {
+                    $("#destination_city").text(city_list.city_name)
+                  }
+                })
+              }
+            })
+          }
+        }
+      })
+    }
+  })
+});
+    </script>

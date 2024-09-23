@@ -1,0 +1,26 @@
+node:events:498
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: listen EADDRINUSE: address already in use :::4000
+    at Server.setupListenHandle [as _listen2] (node:net:1903:16)
+    at listenInCluster (node:net:1960:12)
+    at Server.listen (node:net:2062:7)
+    at Function.listen (/var/www/vhosts/brilliancetechhub.com/application.interbsecurity.com/node_modules/express/lib/application.js:635:24)
+    at Object.<anonymous> (/var/www/vhosts/brilliancetechhub.com/application.interbsecurity.com/app.js:70:5)
+    at Module._compile (node:internal/modules/cjs/loader:1546:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1691:10)
+    at Module.load (node:internal/modules/cjs/loader:1317:32)
+    at Module._load (node:internal/modules/cjs/loader:1127:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:315:14)
+Emitted 'error' event on Server instance at:
+    at emitErrorNT (node:net:1939:8)
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '::',
+  port: 4000
+}
+
+Node.js v22.8.0
