@@ -299,7 +299,7 @@ router.post("/tracking/ajax", async (req, res) => {
                                     FROM tbl_register_packages WHERE invoice ='${invoice_no}'`);
 
             if (!data.length) {
-                return res.status(200).json({ status: 'error', message: 'Tracking Number Not Found' });
+                return res.status(200).json({ status: 'error', message: 'Tracking Number Not Found Kindly Check if your ID is correct' });
             }
 
             edit_data = await mySqlQury(`SELECT * FROM tbl_customers WHERE id = '${data[0].customer}'`);
