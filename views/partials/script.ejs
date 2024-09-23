@@ -42,8 +42,9 @@ $(document).ready(function() {
         },
         success: function(res) {
           if (res.status === "error") {
-            return toastr.error(res.message)
-          }
+  $('#invoice_no_error').text(res.message).css('color', 'red');
+  return toastr.error(res.message);
+}
           if (shipment_type == '1') {
             // alert(res.data[0].customer_firstname)
             $("#qwe").addClass("d-none")
