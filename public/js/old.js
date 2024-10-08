@@ -3160,7 +3160,7 @@ function selectRefresh() {
                     $("#destination_address").text(address)
     
                     res.countries_list.forEach((countries_list) => {
-                      if (countries_list.id == res.client_country[x]) {
+                      if (countries_list.id == res.data[0].client_country) {
                         $("#destination_country").text(countries_list.countries_name)
                       }
                     })
