@@ -305,12 +305,20 @@ router.post("/tracking/ajax", async (req, res) => {
             edit_data = await mySqlQury(`SELECT * FROM tbl_customers WHERE id = '${data[0].customer}'`);
         } 
         else if (shipment_type == '2') {
-            data = await mySqlQury(`SELECT tbl_shipment.*, 
+           /* data = await mySqlQury(`SELECT tbl_shipment.*, 
                                     (SELECT tbl_customers.first_name FROM tbl_customers WHERE tbl_shipment.customer = tbl_customers.id) AS customer_firstname, 
                                     (SELECT tbl_customers.last_name FROM tbl_customers WHERE tbl_shipment.customer = tbl_customers.id) AS customer_lastname, 
                                     (SELECT tbl_client.first_name FROM tbl_client WHERE tbl_shipment.client = tbl_client.id) AS client_firstname, 
                                     (SELECT tbl_client.last_name FROM tbl_client WHERE tbl_shipment.client = tbl_client.id) AS client_lastname 
-                                    FROM tbl_shipment WHERE invoice ='${invoice_no}'`);
+                                    FROM tbl_shipment WHERE invoice ='${invoice_no}'`);*/ /*The existing and working code */
+                data = await mySqlQury(`SELECT tbl_shipment.*, 
+                                        (SELECT tbl_customers.first_name FROM tbl_customers WHERE tbl_shipment.customer = tbl_customers.id) AS customer_firstname, 
+                                        (SELECT tbl_customers.last_name FROM tbl_customers WHERE tbl_shipment.customer = tbl_customers.id) AS customer_lastname, 
+                                        (SELECT tbl_client.first_name FROM tbl_client WHERE tbl_shipment.client = tbl_client.id) AS client_firstname, 
+                                        (SELECT tbl_client.last_name FROM tbl_client WHERE tbl_shipment.client = tbl_client.id) AS client_lastname,
+                                        (SELECT tbl_client.address FROM tbl_client WHERE tbl_shipment.client = tbl_client.id) AS client_address 
+                                        FROM tbl_shipment WHERE invoice ='${invoice_no}'`);
+      
 
             if (!data.length) {
                 return res.status(200).json({ status: 'error', message: 'Tracking Number Not Found Kindly Check if your ID is correct or you have selected the right Shipment type' });

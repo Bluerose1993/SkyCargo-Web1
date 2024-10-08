@@ -83,6 +83,7 @@ $(document).ready(function() {
             let date = new Date(res.data[0].date).toISOString().split("T")
             $("#date_of_shipment").text(date[0])
             $("#total_weight").text(res.data[0].total_weight)
+            $("#destination_address").text(res.data[0].client_address)
             $("#client_name").text(res.data[0].client_firstname + ' ' + res.data[0].client_lastname)
             res.address.forEach((address, x) => {
               if (address == res.data[0].customer_address) {

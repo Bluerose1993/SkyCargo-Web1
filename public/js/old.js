@@ -3121,6 +3121,7 @@ function selectRefresh() {
                 $("#date_of_shipment").text(res.data[0].date)
                 $("#total_weight").text(res.data[0].total_weight)
                 $("#client_name").text(res.data[0].client_firstname + ' ' + res.data[0].client_lastname)
+                $("#destination_address").text(res.data[0].client_address)
                 
                 
                 res.address.forEach((address, x) => {
