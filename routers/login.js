@@ -321,13 +321,13 @@ router.post("/tracking/ajax", async (req, res) => {
                                         tbl_client.email AS client_email,
                                         tbl_client.country AS client_country,
                                         tbl_countries.countries_name AS country_name,
-                                        tbl_state.state_name AS client_state,
+                                        tbl_states.state_name AS client_state,
                                         tbl_city.city_name AS client_city
                                         FROM tbl_shipment 
                                         JOIN tbl_client ON tbl_shipment.client = tbl_client.id
                                         JOIN tbl_customers ON tbl_shipment.customer = tbl_customers.id
                                         JOIN tbl_countries ON tbl_client.country = tbl_countries.id
-                                        JOIN tbl_state ON tbl_client.state = tbl_state.id
+                                        JOIN tbl_states ON tbl_client.state = tbl_state.id
                                         JOIN tbl_city ON tbl_client.city = tbl_city.id
                                         WHERE tbl_shipment.invoice = '${invoice_no}'`);
       
