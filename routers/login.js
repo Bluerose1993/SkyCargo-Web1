@@ -312,15 +312,23 @@ router.post("/tracking/ajax", async (req, res) => {
                                     (SELECT tbl_client.last_name FROM tbl_client WHERE tbl_shipment.client = tbl_client.id) AS client_lastname 
                                     FROM tbl_shipment WHERE invoice ='${invoice_no}'`);*/ /*The existing and working code */
                 data = await mySqlQury(`SELECT tbl_shipment.*, 
-                                        (SELECT tbl_customers.first_name FROM tbl_customers WHERE tbl_shipment.customer = tbl_customers.id) AS customer_firstname, 
-                                        (SELECT tbl_customers.last_name FROM tbl_customers WHERE tbl_shipment.customer = tbl_customers.id) AS customer_lastname, 
-                                        (SELECT tbl_client.first_name FROM tbl_client WHERE tbl_shipment.client = tbl_client.id) AS client_firstname, 
-                                        (SELECT tbl_client.last_name FROM tbl_client WHERE tbl_shipment.client = tbl_client.id) AS client_lastname,
-                                        (SELECT tbl_client.address FROM tbl_client WHERE tbl_shipment.client = tbl_client.id) AS client_address,
-                                        (SELECT tbl_client.country FROM tbl_client WHERE tbl_shipment.client = tbl_client.id) AS client_country,
-                                        (SELECT tbl_countries.countries_name FROM tbl_countries WHERE tbl_countries.id = tbl_client.country) AS country_name
+                                        tbl_customers.first_name AS customer_firstname, 
+                                        tbl_customers.last_name AS customer_lastname, 
+                                        tbl_client.first_name AS client_firstname, 
+                                        tbl_client.last_name AS client_lastname,
+                                        tbl_client.address AS client_address,
+                                        tbl_client.mobile AS client_mobile,
+                                        tbl_client.email AS client_email,
+                                        tbl_client.country AS client_country,
+                                        tbl_countries.countries_name AS country_name,
+                                        tbl_state.state_name AS client_state,
+                                        tbl_city.city_name AS client_city
                                         FROM tbl_shipment 
                                         JOIN tbl_client ON tbl_shipment.client = tbl_client.id
+                                        JOIN tbl_customers ON tbl_shipment.customer = tbl_customers.id
+                                        JOIN tbl_countries ON tbl_client.country = tbl_countries.id
+                                        JOIN tbl_state ON tbl_client.state = tbl_state.id
+                                        JOIN tbl_city ON tbl_client.city = tbl_city.id
                                         WHERE tbl_shipment.invoice = '${invoice_no}'`);
       
       
